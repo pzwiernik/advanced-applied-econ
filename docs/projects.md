@@ -102,7 +102,6 @@ These topics explore how graph-based ideas enter applied economics when units in
 
 * **Ref 1 (Anchor):** Davide Viviano, selected recent papers on policy targeting under interference.
 * **Ref 2 (General background):** Victor Chernozhukov et al. and related literature on policy learning under interference.
-
 ---
 
 ## Category 3: Hidden confounding, proxies, and high-dimensional adjustment
