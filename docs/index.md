@@ -44,7 +44,7 @@ TBA
 | 7 | Network interference and spillovers | L7 |
 | 8 | Positive dependence and total positivity | L8 |
 | 9 | Presentations |  |
-| 10 | Presentations | L8 |
+| 10 | Presentations |  |
 
 ---
 
