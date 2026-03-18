@@ -4,7 +4,7 @@ This course bridges the gap between modern structural statistics (graphical mode
 
 ## Expectations for the Final Project
 
-You will have about 3–4 weeks to complete this project. Given this short timeframe, **the goal is not to produce a publishable paper or genuinely new empirical results.** Instead, the objective is to actively engage with the material, demonstrating a deep understanding of a specific methodology covered in the course. 
+You will have about 3–4 weeks to complete this project. Given this short timeframe, the goal is not to produce a publishable paper or genuinely new empirical results. Instead, the objective is to actively engage with the material, demonstrating a deep understanding of a specific methodology covered in the course. 
 
 You are welcome to approach the project from either an applied or a theoretical perspective:
 
