@@ -198,7 +198,7 @@ A custom topic should satisfy three criteria:
 2. **Core component:** it must include either an implementation / simulation / empirical illustration, or a serious methodological / theoretical analysis.
 3. **Critical evaluation:** it must go beyond description and say something about assumptions, limits, or interpretation.
 
-To propose your own topic, submit a short 1-page PDF describing:
+To propose your own topic, e-mail me describing:
 - the question,
 - the method,
 - the dataset or simulation plan (if applicable),
