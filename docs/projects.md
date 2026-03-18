@@ -3,7 +3,7 @@
 This course bridges the gap between modern structural statistics (graphical models, latent variables, causal discovery) and applied economics. 
 
 **Expectations for the Final Project:**
-You will have about 3–4 weeks to complete this project. Given this short timeframe, **the goal is not to produce a publishable paper or genuinely new empirical results.** Instead, I want to see you actively engage with the material and try applying these advanced methods to see how they behave in practice. 
+You will have about 3–4 weeks to complete this project. Given this short timeframe, the goal is not to produce a publishable paper or genuinely new empirical results. Instead, I want to see you actively engage with the material and try applying these advanced methods to see how they behave in practice. 
 
 Pure machine learning methods often fail when applied blindly to economic data due to heavy tails, unmeasured confounding, time-dependence, or SUTVA violations. A successful project will take a method, try it out, and explore these breaking points. You are expected to:
 1. **Implement** an estimator or algorithm (in R or Python) based on a methodology from the course.
