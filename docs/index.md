@@ -33,16 +33,18 @@ TBA
 
 ## Lectures and timeline (tentative)
 
-| Week | Topic | Slides |
+| Lecture | Topic | Slides |
 |---|---|---|
 | 1 | Conditional independence as structure | [L1](slides/lecture01.pdf) |
-| 2 | Gaussian and non-paranormal graphical models | [L2](slides/lecture02.pdf) |
-| 3 | DAGs, interventions, and structural equation models | [L3](slides/lecture03.pdf) |
-| 4 | Causal discovery and non-Gaussian identification | [L4](slides/lecture04.pdf) |
-| 5 | Latent variable models — from trees to neural nets | [L5](slides/lecture05.pdf) |
-| 6 | Unobserved confounding and adjustments | [L6](slides/lecture06.pdf) |
-| 7 | Network interference and spillovers | [L7](slides/lecture07.pdf) |
-| 8 | Positive dependence and total positivity | [L8](slides/lecture08.pdf) |
+| 2 | Gaussian and non-paranormal graphical models | L2 |
+| 3 | DAGs, interventions, and structural equation models | L3 |
+| 4 | Causal discovery and non-Gaussian identification | L4 |
+| 5 | Latent variable models — from trees to neural nets | L5 |
+| 6 | Unobserved confounding and adjustments | L6 |
+| 7 | Network interference and spillovers | L7 |
+| 8 | Positive dependence and total positivity | L8 |
+| 9 | Presentations |  |
+| 10 | Presentations | L8 |
 
 ---
 
