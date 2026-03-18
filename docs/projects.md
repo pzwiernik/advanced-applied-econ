@@ -2,15 +2,25 @@
 
 This course bridges the gap between modern structural statistics (graphical models, latent variables, causal discovery) and applied economics. 
 
-**Expectations for the Final Project:**
-You will have about 3–4 weeks to complete this project. Given this short timeframe, the goal is not to produce a publishable paper or genuinely new empirical results. Instead, I want to see you actively engage with the material and try applying these advanced methods to see how they behave in practice. 
+## Expectations for the Final Project
 
-Pure machine learning methods often fail when applied blindly to economic data due to heavy tails, unmeasured confounding, time-dependence, or SUTVA violations. A successful project will take a method, try it out, and explore these breaking points. You are expected to:
-1. **Implement** an estimator or algorithm (in R or Python) based on a methodology from the course.
-2. **Apply** it to an economic problem, using either a real-world dataset or a carefully constructed simulation.
-3. **Investigate** its limitations. (e.g., Run a robustness check: What happens to the DAG if the data is heavy-tailed instead of Gaussian? What happens to the network if a latent confounder is ignored?)
+You will have about 3–4 weeks to complete this project. Given this short timeframe, **the goal is not to produce a publishable paper or genuinely new empirical results.** Instead, the objective is to actively engage with the material, demonstrating a deep understanding of a specific methodology covered in the course. 
 
-Do not worry if the method "fails" or gives messy results on real data—documenting and explaining *why* it fails based on economic theory is exactly what I am looking for!
+You are welcome to approach the project from either an applied or a theoretical perspective:
+
+**Option A: Applied / Empirical / Simulation Track**
+For students interested in applied work, the goal is to take an advanced method, apply it, and test its boundaries. Pure machine learning methods often fail when applied blindly to economic data due to heavy tails, unmeasured confounding, or time-dependence. A successful applied project will:
+1. **Implement** an estimator or algorithm (in R or Python).
+2. **Apply** it to an economic problem, using a real-world dataset or a carefully constructed simulation.
+3. **Investigate** its limitations based on economic theory (e.g., What happens to the DAG if the data is heavy-tailed instead of Gaussian? What happens to the network if a latent confounder is ignored?).
+
+**Option B: Theory / Methodology Track**
+For students leaning toward econometrics, statistics, or theoretical work, you do not need to run regressions on real data. Instead, your project can focus on the mathematical or algorithmic properties of these tools. A successful theory project might:
+1. **Extend or adapt** an existing algorithm to fit a specific economic setting (e.g., adapting a graphical model to handle a specific type of measurement error).
+2. **Analyze** the theoretical properties of an estimator (e.g., exploring identification conditions when a standard assumption, like Gaussianity or SUTVA, is systematically relaxed).
+3. **Synthesize and critique** a frontier methodological literature, providing your own theoretical proofs, counter-examples, or structural insights.
+
+*Do not worry if an applied method "fails" on real data, or if a theoretical proof hits a dead end—documenting and explaining why the breakdown occurs is exactly what I am looking for!*
 
 ---
 
@@ -126,12 +136,12 @@ Do not worry if the method "fails" or gives messy results on real data—documen
 
 ## Guidelines for Proposing Your Own Topic
 
-I highly encourage you to propose your own topic, especially if it aligns with an ongoing master's thesis or early PhD research! Given the 3–4 week timeframe, an ideal custom proposal should be a targeted experiment rather than a sprawling literature review. 
+I highly encourage you to propose your own topic, especially if it aligns with an ongoing master's thesis or early PhD research! Given the 3–4 week timeframe, an ideal custom proposal should be a targeted experiment or theoretical derivation rather than a sprawling literature review. 
 
 If you choose to propose your own topic, it must meet the following criteria:
 
-1. **Relevance:** It must explicitly use a methodology covered in the course (e.g., graphical models, latent variable adjustments, network spillovers, non-Gaussian identification).
-2. **Empirical or Simulation Component:** You must implement the method on data (real or simulated) to see how it performs.
-3. **Critical Evaluation:** Show me that you understand the mechanics of the method by testing its boundaries. 
+1. **Relevance:** It must explicitly engage with a methodology covered in the course (e.g., graphical models, latent variable adjustments, network spillovers, non-Gaussian identification).
+2. **Core Component:** You must either implement the method on data (real or simulated) OR provide a formal methodological/theoretical analysis.
+3. **Critical Evaluation:** Show me that you understand the mechanics of the method by testing its boundaries, limits, or underlying assumptions. 
 
-**To propose a topic:** Submit a short, 1-page PDF outlining your economic question, the dataset or simulation you intend to use, the primary method you will apply, and 1–2 core references.
+**To propose a topic:** Submit a short, 1-page PDF outlining your economic question or theoretical focus, the dataset/simulation (if applicable), the primary method you will analyze, and 1–2 core references.
