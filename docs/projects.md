@@ -1,12 +1,16 @@
 # Individual Research Projects
 
-This course bridges the gap between modern structural statistics (graphical models, latent variables, causal discovery) and applied economics. The goal of the final project is not merely to summarize a method, but to take a specific methodology, identify its theoretical requirements, and test its performance on a complex simulation or a real-world economic dataset.
+This course bridges the gap between modern structural statistics (graphical models, latent variables, causal discovery) and applied economics. 
 
-**Expectations for Master in Research / PhD Students:**
-Pure machine learning methods often fail when applied blindly to economic data due to heavy tails, unmeasured confounding, time-dependence, or SUTVA violations. A successful project will explicitly investigate these breaking points. You are expected to:
-1. Implement an estimator or algorithm (in R or Python).
-2. Apply it to an economic problem or dataset.
-3. Conduct a robustness check (e.g., what happens to the DAG if the data is heavy-tailed and not Gaussian? What happens to the network if a latent confounder is ignored?).
+**Expectations for the Final Project:**
+You will have about 3–4 weeks to complete this project. Given this short timeframe, **the goal is not to produce a publishable paper or genuinely new empirical results.** Instead, I want to see you actively engage with the material and try applying these advanced methods to see how they behave in practice. 
+
+Pure machine learning methods often fail when applied blindly to economic data due to heavy tails, unmeasured confounding, time-dependence, or SUTVA violations. A successful project will take a method, try it out, and explore these breaking points. You are expected to:
+1. **Implement** an estimator or algorithm (in R or Python) based on a methodology from the course.
+2. **Apply** it to an economic problem, using either a real-world dataset or a carefully constructed simulation.
+3. **Investigate** its limitations. (e.g., Run a robustness check: What happens to the DAG if the data is heavy-tailed instead of Gaussian? What happens to the network if a latent confounder is ignored?)
+
+Do not worry if the method "fails" or gives messy results on real data—documenting and explaining *why* it fails based on economic theory is exactly what I am looking for!
 
 ---
 
@@ -122,10 +126,12 @@ Pure machine learning methods often fail when applied blindly to economic data d
 
 ## Guidelines for Proposing Your Own Topic
 
-Students are highly encouraged to propose their own topics, especially if they align with ongoing master's thesis or early PhD research. If you choose to propose your own topic, it must meet the following criteria:
+I highly encourage you to propose your own topic, especially if it aligns with an ongoing master's thesis or early PhD research! Given the 3–4 week timeframe, an ideal custom proposal should be a targeted experiment rather than a sprawling literature review. 
+
+If you choose to propose your own topic, it must meet the following criteria:
 
 1. **Relevance:** It must explicitly use a methodology covered in the course (e.g., graphical models, latent variable adjustments, network spillovers, non-Gaussian identification).
-2. **Empirical or Simulation Component:** Pure theory literature reviews are not accepted. You must implement a method on data (real or simulated).
-3. **Critical Evaluation:** You must test the boundaries of the method. Do not just run an R/Python package and report the output. Ask: *What economic assumption breaks this algorithm, and can I show that breakdown in the data?*
+2. **Empirical or Simulation Component:** You must implement the method on data (real or simulated) to see how it performs.
+3. **Critical Evaluation:** Show me that you understand the mechanics of the method by testing its boundaries. 
 
-**To propose a topic:** Submit a 1-page PDF outlining your economic question, the dataset you intend to use, the primary structural/graphical method you will apply, and 1-2 core references.
+**To propose a topic:** Submit a short, 1-page PDF outlining your economic question, the dataset or simulation you intend to use, the primary method you will apply, and 1–2 core references.
