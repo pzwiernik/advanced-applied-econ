@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  15 MAR 2026 07:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  19 MAR 2026 15:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -718,7 +718,7 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 File: lstlang2.sty 2024/09/23 1.10c listings language file
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang3.sty
 File: lstlang3.sty 2024/09/23 1.10c listings language file
-)) (/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.aux)
+)) (/Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.aux)
 \openout1 = `lecture02.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
@@ -794,7 +794,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package hyperref Info: Link coloring OFF on input line 10.
- (/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.out) (/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.out)
+ (/Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.out) (/Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.out)
 \@outlinefile=\write5
 \openout5 = `lecture02.out'.
 
@@ -861,7 +861,7 @@ Dictionary: translator-numbers-dictionary, Language: English
 Dictionary: translator-theorem-dictionary, Language: English 
 )
 \c@lstlisting=\count373
- (/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.nav)
+ (/Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.nav)
 <LOGOstats.png, id=45, 652.4375pt x 117.43875pt>
 File: LOGOstats.png Graphic file (type png)
 <use LOGOstats.png>
@@ -897,10 +897,6 @@ File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mat
 [3
 
 ]
-Overfull \vbox (47.37012pt too high) detected at line 88
- []
-
-
 
 [4
 
@@ -925,10 +921,6 @@ Overfull \vbox (47.37012pt too high) detected at line 88
 [9
 
 ]
-Overfull \vbox (3.90639pt too high) detected at line 192
- []
-
-
 
 [10
 
@@ -937,6 +929,10 @@ Overfull \vbox (3.90639pt too high) detected at line 192
 [11
 
 ]
+Overfull \vbox (0.5366pt too high) detected at line 273
+ []
+
+
 
 [12
 
@@ -945,10 +941,6 @@ Overfull \vbox (3.90639pt too high) detected at line 192
 [13
 
 ]
-Overfull \vbox (46.89008pt too high) detected at line 288
- []
-
-
 
 [14
 
@@ -985,21 +977,28 @@ Overfull \vbox (46.89008pt too high) detected at line 288
 [22
 
 ]
+\openout4 = `lecture02.vrb'.
+
+ (/Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.vrb)
 
 [23
 
-]
-\openout4 = `lecture02.vrb'.
-
- (/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.vrb)
+{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 
 [24
 
-{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+]
 
 [25
 
 ]
+\openout4 = `lecture02.vrb'.
+
+ (/Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.vrb)
+Overfull \vbox (0.17082pt too high) detected at line 644
+ []
+
+
 
 [26
 
@@ -1008,9 +1007,6 @@ Overfull \vbox (46.89008pt too high) detected at line 288
 [27
 
 ]
-\openout4 = `lecture02.vrb'.
-
- (/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.vrb)
 
 [28
 
@@ -1035,13 +1031,13 @@ Overfull \vbox (46.89008pt too high) detected at line 288
 [33
 
 ]
+\openout4 = `lecture02.vrb'.
+
+ (/Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.vrb)
 
 [34
 
 ]
-\openout4 = `lecture02.vrb'.
-
- (/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.vrb)
 
 [35
 
@@ -1066,10 +1062,6 @@ Overfull \vbox (46.89008pt too high) detected at line 288
 [40
 
 ]
-
-[41
-
-]
 \tf@nav=\write6
 \openout6 = `lecture02.nav'.
 
@@ -1079,7 +1071,7 @@ Overfull \vbox (46.89008pt too high) detected at line 288
 \tf@snm=\write8
 \openout8 = `lecture02.snm'.
 
- (/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.aux)
+ (/Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -1088,18 +1080,18 @@ Package rerunfilecheck Info: File `lecture02.out' has not changed.
 (rerunfilecheck)             Checksum: F1FF72A5B88C7E1CD6F7B04F2AB05650;1161.
  ) 
 Here is how much of TeX's memory you used:
- 30965 strings out of 473190
- 624073 string characters out of 5715801
- 1356873 words of memory out of 5000000
- 53524 multiletter control sequences out of 15000+600000
- 573712 words of font info for 90 fonts, out of 8000000 for 9000
+ 30996 strings out of 473190
+ 623113 string characters out of 5715801
+ 1365874 words of memory out of 5000000
+ 53554 multiletter control sequences out of 15000+600000
+ 575350 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,12n,123p,428b,1927s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb>
-Output written on "/Users/piotrzwiernik/Library/Mobile Documents/com~apple~CloudDocs/_Teaching/[UPF,3rd term,MRes] Advanced Techniques in Applied Economics/slides/.texpadtmp/lecture02.pdf" (41 pages, 342016 bytes).
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
+Output written on /Users/piotrzwiernik/Documents/GitHub/advanced-applied-econ/slides/.texpadtmp/lecture02.pdf (40 pages, 364411 bytes).
 PDF statistics:
- 487 PDF objects out of 1000 (max. 8388607)
- 340 compressed objects within 4 object streams
- 91 named destinations out of 1000 (max. 500000)
- 441 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 545 PDF objects out of 1000 (max. 8388607)
+ 365 compressed objects within 4 object streams
+ 89 named destinations out of 1000 (max. 500000)
+ 621 words of extra memory for PDF output out of 10000 (max. 10000000)
 

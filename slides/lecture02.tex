@@ -30,21 +30,17 @@
 \end{frame}
 
 \begin{frame}{What did we learn last time?}
-\begin{itemize}
-    \item Conditional independence is a \imp{structural} concept.
-    \item In Gaussian models,
-    \[
-    X_i\indep X_j\mid X_{\setminus ij}
-    \qquad\Longleftrightarrow\qquad
-    K_{ij}=0,
-    \]
-    where $K=\Sigma^{-1}$ is the precision matrix.
-    \item Conditioning can remove dependence, but it can also create it.
-\end{itemize}
+Last time we introduced conditional independence.
+In particular, for Gaussian data,
+\[
+X_i\indep X_j\mid X_{\setminus ij}
+\qquad\Longleftrightarrow\qquad
+K_{ij}=0,
+\]
+where $K=\Sigma^{-1}$ is the precision matrix.
 
-\vspace{2mm}
 \begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
-\textbf{Today:} we turn these conditional independence statements into \imp{graphs},
+Today we encode these conditional independence statements by \imp{graphs},
 and then learn those graphs from data.
 \end{beamercolorbox}
 \end{frame}
@@ -88,7 +84,7 @@ covariance is marginal, precision is conditional.
     \item Likelihood and estimation under graph constraints
     \item High-dimensional learning and the graphical lasso
     \item Robustness: non-paranormal graphical models
-    \item An applied example in \texttt{R}
+\item Application and interpretation
 \end{enumerate}
 \end{frame}
 
@@ -104,8 +100,17 @@ covariance is marginal, precision is conditional.
 \end{center}
 \end{frame}
 
-\begin{frame}{A first example of an undirected graph}
-Suppose we have four variables $X_1,X_2,X_3,X_4$ and the graph
+\begin{frame}{Undirected graphical models}
+\begin{block}{}
+Let $V=\{1,\ldots,m\}$ index variables $X_1,\ldots,X_m$.
+An \imp{undirected graph} $G=(V,E)$ has
+\begin{itemize}
+    \item one vertex for each variable,
+    \item an edge $i-j$ if the model does \emph{not} impose $X_i\indep X_j|X_{V\setminus \{i,j\}}$.
+\end{itemize}	
+\end{block}
+
+\textbf{Example: }Suppose we have four variables $X_1,X_2,X_3,X_4$ and the graph
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7,
@@ -121,60 +126,64 @@ vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
 \end{center}
 
 \begin{alertblock}{How should we read it?}
-The missing edge between $1$ and $3$ suggests that
+The missing edge between $1$ and $3$ corresponds to
 $
 X_1 \indep X_3 \mid X_2,X_4.
-$\\[2mm]
+$
 Likewise,
 $
 X_1 \indep X_4 \mid X_2,X_3.
 $
 \end{alertblock}
 
-\begin{block}{Main idea}
-An undirected graph is a compact way to record which conditional independence statements we want to impose.
-\end{block}
+%\begin{block}{Main idea}
+%An undirected graph is a compact way to record which CI statements we want to impose.
+%\end{block}
 \end{frame}
 
-\begin{frame}{Undirected graphs as models of conditional independence}
-Let $V=\{1,\ldots,m\}$ index variables $X_1,\ldots,X_m$.
-An \imp{undirected graph} $G=(V,E)$ has
-\begin{itemize}
-    \item one vertex for each variable,
-    \item an edge $i-j$ if the model does \emph{not} impose conditional independence between $X_i$ and $X_j$.
-\end{itemize}
+%\begin{frame}{Undirected graphs as models of conditional independence}
+%Let $V=\{1,\ldots,m\}$ index variables $X_1,\ldots,X_m$.
+%An \imp{undirected graph} $G=(V,E)$ has
+%\begin{itemize}
+%    \item one vertex for each variable,
+%    \item an edge $i-j$ if the model does \emph{not} impose $X_i\indep X_j|X_{V\setminus \{i,j\}}$.
+%\end{itemize}
+%
+%%\begin{alertblock}{Interpretation}
+%%A missing edge is informative:
+%%it says that the corresponding variables should become independent once the remaining variables are held fixed.
+%%\end{alertblock}
+%%\medskip
+%%\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+%%An undirected graph is not a causal diagram.  
+%%It is a map of conditional independence structure.
+%%\end{beamercolorbox}
+%\end{frame}
 
-\begin{alertblock}{Interpretation}
-A missing edge is informative:
-it says that the corresponding variables should become independent once the remaining variables are held fixed.
-\end{alertblock}
-\medskip
-\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
-An undirected graph is not a causal diagram.  
-It is a map of conditional independence structure.
-\end{beamercolorbox}
-\end{frame}
 
 
-
-\begin{frame}{Pairwise Markov property}
-For an undirected graph $G$, the \imp{pairwise Markov property} says:
-\[
- i\not\sim j
- \qquad\Longrightarrow\qquad
- X_i\indep X_j\mid X_{V\setminus\{i,j\}}.
-\]
-
-\begin{block}{Interpretation}
-If there is no edge between $i$ and $j$, then after controlling for all the other variables,
-there is no remaining conditional association between $X_i$ and $X_j$.
-\end{block}
-
-\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
-A missing edge does \textbf{not} mean marginal independence.  
-It means independence \emph{after conditioning on the remaining variables}.
-\end{beamercolorbox}
-\end{frame}
+%\begin{frame}{Pairwise Markov property}
+%We will see that the graph encodes many other conditional independence statements. \\[2mm]
+%
+%
+%
+%For an undirected graph $G$, the \imp{pairwise Markov property} says:
+%\[
+% i\not\sim j
+% \qquad\Longrightarrow\qquad
+% X_i\indep X_j\mid X_{V\setminus\{i,j\}}.
+%\]
+%
+%\begin{block}{Interpretation}
+%If there is no edge between $i$ and $j$, then after controlling for all the other variables,
+%there is no remaining conditional association between $X_i$ and $X_j$.
+%\end{block}
+%
+%\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+%A missing edge does \textbf{not} mean marginal independence.  
+%It means independence \emph{after conditioning on the remaining variables}.
+%\end{beamercolorbox}
+%\end{frame}
 
 
 
@@ -182,6 +191,7 @@ It means independence \emph{after conditioning on the remaining variables}.
 
 Let $A$, $B$, and $C$ be disjoint subsets of vertices.
 If every path from $A$ to $B$ passes through $C$, then $C$ \imp{separates} $A$ and $B$.
+\vspace{-5mm}
 \begin{center}
 \begin{tikzpicture}[scale=1.0,
 vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
@@ -197,9 +207,9 @@ vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
 \node[green!50!black] at (4.9,0.6) {\small $B=\{4,5\}$};
 \node[red!70!black] at (2.8,-0.7) {\small $C=\{3\}$};
 \end{tikzpicture}
-\end{center}\vspace{-6mm}
-\begin{alertblock}{Global Markov property}
-If $C$ separates $A$ and $B$ in $G$, then
+\end{center}\vspace{-1mm}
+\begin{alertblock}{The graph encodes more CIs than just the pairwise: $X_i\indep X_j|X_{V\setminus \{i,j\}}$.}
+\imp{Global Markov property: }If $C$ separates $A$ and $B$ in $G$, then
 \[
 X_A \indep X_B \mid X_C.
 \]
@@ -209,32 +219,34 @@ $
 $}
 \end{alertblock}
 
-\begin{block}{Why this is stronger than the pairwise property}
-The pairwise Markov property only gives CI conditioning on \emph{all remaining variables}.
-The global Markov property lets us read off much richer statements from graph separation.
+\begin{block}{}
+Clearly Global Markov Properties imply the Pairwise Markov Properties.
+
 \end{block}
 
 \end{frame}
 
 
 \begin{frame}{Hammersley--Clifford theorem}
-For a \textbf{positive} distribution, the following are equivalent:
+\imp{Graph factorization:} If $C_1,\ldots,C_r$ are the cliques of $G$, then\\[2mm]
+\qquad\qquad\qquad\qquad\qquad\qquad$
+f(x)\propto \prod_{k=1}^r \psi_{C_k}(x_{C_k})
+$\\[2mm]
+for suitable clique potentials $\psi_{C_k}$.
+
+\begin{block}{Hammersley-Clifford Theorem}
+	For a \textbf{positive} distribution (full support), the following are equivalent:
 \begin{enumerate}
     \item the distribution is pairwise Markov with respect to the graph $G$,
     \item the distribution is global Markov with respect to the graph $G$,
     \item the density factorizes over the cliques of $G$.
 \end{enumerate}
+\end{block}
+Note that Gaussian density has full support. 
 
-\begin{alertblock}{Factorization form}
-If $C_1,\ldots,C_r$ are the cliques of $G$, then
-\[
-f(x)\propto \prod_{k=1}^r \psi_{C_k}(x_{C_k})
-\]
-for suitable clique potentials $\psi_{C_k}$.
-\end{alertblock}
 
 \begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
-Hammersley--Clifford is the theorem that connects graph separation with probabilistic factorization.
+Hammersley--Clifford connects graph separation with probabilistic factorization.
 \end{beamercolorbox}
 \end{frame}
 
@@ -258,16 +270,16 @@ f(x_1,x_2,x_3)\propto \psi_{12}(x_1,x_2)\,\psi_{23}(x_2,x_3).
 \begin{alertblock}{Why this implies conditional independence}
 Fixing $x_2$, we get
 \[
-f(x_1,x_3\mid x_2)\propto \psi_{12}(x_1,x_2)\,\psi_{23}(x_2,x_3).
+f(x_1,x_3\mid x_2)= \frac{\psi_{12}(x_1,x_2)}{\sum_{x_1}\psi_{12}(x_1,x_2)}\,\frac{\psi_{23}(x_2,x_3)}{\sum_{x_3}\psi_{23}(x_2,x_3)}.
 \]
-The first factor depends only on $x_1$, the second only on $x_3$, so after normalization
+The first factor depends only on $x_1$, the second only on $x_3$, so 
 \[
 f(x_1,x_3\mid x_2)=f(x_1\mid x_2)\,f(x_3\mid x_2).
 \]
 Hence
-\[
-X_1\indep X_3\mid X_2.
-\]
+$
+X_1\indep X_3\mid X_2$.
+
 \end{alertblock}
 
 \end{frame}
@@ -309,7 +321,7 @@ In Gaussian models, learning the graph is the same as learning the zero pattern 
 
 \begin{frame}{A four-variable example}
 Suppose
-\[
+{\small \[
 K=
 \begin{pmatrix}
 * & * & 0 & 0\\
@@ -317,11 +329,12 @@ K=
 0 & * & * & 0\\
 0 & * & 0 & *
 \end{pmatrix}.
-\]
+\]}
 Then the corresponding graph is
+\vspace{-5mm}
 \begin{center}
-\begin{tikzpicture}[scale=0.6,
-vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
+\begin{tikzpicture}[scale=0.5,
+vertex/.style={circle,draw,very thick,minimum size=5mm,inner sep=0pt}]
 \node[vertex] (1) at (0,0) {$1$};
 \node[vertex] (2) at (2,1.2) {$2$};
 \node[vertex] (3) at (4,0) {$3$};
@@ -331,7 +344,7 @@ vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
 \draw[very thick] (2)--(4);
 \end{tikzpicture}
 \end{center}
-
+\vspace{-5mm}
 \begin{block}{}
 The zeros $K_{13}=K_{14}=K_{34}=0$ mean:\;\;
 $
@@ -341,47 +354,50 @@ X_3\indep X_4\mid X_{\{1,2\}}.
 $\\[2mm]
 Hammersley-Clifford gives, e.g., $X_1\indep X_3|X_2$.
 \end{block}
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+The covariance matrix describes marginal comovement, while the precision matrix describes what remains after controlling for the other variables.
+\end{beamercolorbox}
 \end{frame}
 
-\begin{frame}{Marginal dependence vs direct dependence}
-\begin{columns}[T]
-\begin{column}{0.48\textwidth}
-\begin{block}{Covariance matrix $\Sigma$}
-Describes \textbf{marginal} comovement.
-Two variables may have large covariance simply because they share common shocks.
-\end{block}
-\end{column}
-\begin{column}{0.48\textwidth}
-\begin{block}{Precision matrix $K$}
-Describes \textbf{conditional} relations.
-It tells us what dependence remains after controlling for all other variables.
-\end{block}
-\end{column}
-\end{columns}
+%\begin{frame}{Marginal dependence vs direct dependence}
+%\begin{columns}[T]
+%\begin{column}{0.48\textwidth}
+%\begin{block}{Covariance matrix $\Sigma$}
+%Describes \textbf{marginal} comovement.
+%Two variables may have large covariance simply because they share common shocks.
+%\end{block}
+%\end{column}
+%\begin{column}{0.48\textwidth}
+%\begin{block}{Precision matrix $K$}
+%Describes \textbf{conditional} relations.
+%It tells us what dependence remains after controlling for all other variables.
+%\end{block}
+%\end{column}
+%\end{columns}
+%
+%\vspace{2mm}
+%\begin{alertblock}{Economic interpretation}
+%In finance, a dense covariance matrix may reflect market-wide exposure.
+%A sparse precision matrix aims to isolate direct links.
+%\end{alertblock}
+%\end{frame}
 
-\vspace{2mm}
-\begin{alertblock}{Economic interpretation}
-In finance, a dense covariance matrix may reflect market-wide exposure.
-A sparse precision matrix aims to isolate direct links.
-\end{alertblock}
-\end{frame}
-
-\begin{frame}{Partial correlations}
-For Gaussian data, the precision matrix can be rescaled into partial correlations:
-\[
-\rho_{ij\cdot V\setminus\{i,j\}}
-=
--\frac{K_{ij}}{\sqrt{K_{ii}K_{jj}}}.
-\]
-
-\begin{block}{Interpretation}
-This is the correlation between $X_i$ and $X_j$ after linearly removing the effect of all remaining variables.
-\end{block}
-
-\begin{alertblock}{Graphical interpretation}
-A zero partial correlation corresponds to a missing edge in the Gaussian graph.
-\end{alertblock}
-\end{frame}
+%\begin{frame}{Partial correlations}
+%For Gaussian data, the precision matrix can be rescaled into partial correlations:
+%\[
+%\rho_{ij\cdot V\setminus\{i,j\}}
+%=
+%-\frac{K_{ij}}{\sqrt{K_{ii}K_{jj}}}.
+%\]
+%
+%\begin{block}{Interpretation}
+%This is the correlation between $X_i$ and $X_j$ after linearly removing the effect of all remaining variables.
+%\end{block}
+%
+%\begin{alertblock}{Graphical interpretation}
+%A zero partial correlation corresponds to a missing edge in the Gaussian graph.
+%\end{alertblock}
+%\end{frame}
 
 % ------------------------------------------------------------
 % Likelihood
@@ -430,6 +446,7 @@ K_{ij}=0 \qquad \text{for all } i\not\sim j.
 \arg\max
 \Bigl\{\log\det K-\tr(SK)\Bigr\}.
 \]
+$\bullet$ There is a unique optimizer and there are many good algorithms to find the optimum.
 \end{block}
 
 \begin{alertblock}{Interpretation}
@@ -617,7 +634,7 @@ library(huge)
 library(qgraph)
 data(stockdata)
 
-x <- scale(stockdata$data[1:40,])
+x <- scale(stockdata$data[,1:40])
 
 out <- huge(x, method = "glasso")
 plot(out)
@@ -812,7 +829,7 @@ Estimate the latent Gaussian correlation first, then estimate the sparse graph.
 library(huge)
 data(stockdata)
 
-x <- scale(stockdata[,1:40])
+x <- scale(stockdata$data[,1:40])
 
 # rank-based transformation
 x.npn <- huge.npn(x,

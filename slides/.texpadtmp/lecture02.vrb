@@ -6,6 +6,8 @@ library(huge)
 data(stockdata)
 
 x <- scale(stockdata[,1:40])
+
+# rank-based transformation
 x.npn <- huge.npn(x,
                   npn.func = "skeptic")
 \end{lstlisting}
@@ -14,8 +16,10 @@ x.npn <- huge.npn(x,
 \begin{lstlisting}
 out.npn <- huge(x.npn,
                 method = "glasso")
+
 Khat <- out.npn$icov[[10]]
 Khat <- (Khat + t(Khat))/2
+
 qgraph(-cov2cor(Khat),
        layout = "spring")
 \end{lstlisting}
@@ -23,5 +27,5 @@ qgraph(-cov2cor(Khat),
 \end{columns}
 
 \begin{alertblock}{Interpretation}
-This estimates a sparse graph after a rank-based non-paranormal transformation.
+This estimates a sparse graph after a rank-based non-paranormal correction.
 \end{alertblock}
