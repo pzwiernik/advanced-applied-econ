@@ -19,7 +19,7 @@ Office hours: 20.202 by appointment
 ---
 
 ## Suggested reading
-This is not a causal inference course but this area of data analysis relies heavily on similar ideas. Some books that may be useful
+This is not a causal inference course but this area of data analysis relies heavily on similar ideas. Some books that may be useful:
 - J. Peters, D. Janzing, & B. Scholkopf (2017). Elements of causal inference: foundations and learning algorithms. MIT press.
 - V. Chernozhukov, C. Hansen, N. Kallus, M. Spindler, V. Syrgkanis, [Applied Causal Inference
 Powered by ML and AI](https://causalml-book.org/).
