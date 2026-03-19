@@ -23,6 +23,7 @@ This is not a causal inference course but this area of data analysis relies heav
 - J. Peters, D. Janzing, & B. Scholkopf (2017). Elements of causal inference: foundations and learning algorithms. MIT press.
 - V. Chernozhukov, C. Hansen, N. Kallus, M. Spindler, V. Syrgkanis, [Applied Causal Inference
 Powered by ML and AI](https://causalml-book.org/).
+- S. Højsgaard, D. Edwards, S. Lauritzen. Graphical Models with R.
 - The lecture slides and selected papers mentioned during the course
 
 ---

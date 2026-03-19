@@ -4,5 +4,5 @@ description: >
   Graphical models, causal discovery,
   latent variables, interference, and positive dependence.
 theme: jekyll-theme-minimal
-logo: /docs/course-cover.png
+logo: course-cover.png
 show_downloads: false
