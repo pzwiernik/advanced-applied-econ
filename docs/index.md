@@ -33,7 +33,7 @@ Powered by ML and AI](https://causalml-book.org/).
 | Lecture | Topic | Slides |
 |---|---|---|
 | 1 | Conditional independence as structure | [L1](../slides/lecture01.pdf) |
-| 2 | Gaussian and non-paranormal graphical models | L2 |
+| 2 | Gaussian and non-paranormal graphical models | [L2](../slides/lecture02.pdf) |
 | 3 | DAGs, interventions, and structural equation models | L3 |
 | 4 | Causal discovery and non-Gaussian identification | L4 |
 | 5 | Latent variable models — from trees to neural nets | L5 |
