@@ -6,7 +6,7 @@ This course studies modern structured statistical methods for applied economics,
 
 ## Announcements
 - Mar 20: Slides for Lecture 1 are available.
-- Mar 20: Project topics are released.
+- Mar 20: Suggested [project topics](projects.md) are released.
 
 ---
 
