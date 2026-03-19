@@ -1,4 +1,4 @@
-# Advanced Techniques in Applied Economics IV — Spring 2026
+# Advanced Techniques in Applied Economics — Spring 2026
 
 This course studies modern structured statistical methods for applied economics, with a focus on graphical models, causal discovery, latent-variable models, interference, and positive dependence.
 
