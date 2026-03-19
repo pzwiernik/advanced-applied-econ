@@ -5,29 +5,25 @@ This course studies modern structured statistical methods for applied economics,
 ---
 
 ## Announcements
-- Slides for Lecture 1 are available.
-- Project topics will be released soon.
+- Mar 20: Slides for Lecture 1 are available.
+- Mar 20: Project topics are released.
 
 ---
 
 ## Instructor
 **Piotr Zwiernik**  
 Email: piotr.zwiernik@upf.edu  
-Office hours: TBA
+Office hours: 20.202 by appointment
 
----
-
-## Time and location
-TBA
 
 ---
 
 ## Suggested reading
-- Koller and Friedman, *Probabilistic Graphical Models*
-- Pearl, *Causality*
-- Lauritzen, *Graphical Models*
-- Bühlmann and van de Geer, *Statistics for High-Dimensional Data*
-- Selected papers linked below
+This is not a causal inference course but this area of data analysis relies heavily on similar ideas. Some books that may be useful
+- J. Peters, D. Janzing, & B. Scholkopf (2017). Elements of causal inference: foundations and learning algorithms. MIT press.
+- V. Chernozhukov, C. Hansen, N. Kallus, M. Spindler, V. Syrgkanis, [Applied Causal Inference
+Powered by ML and AI](https://causalml-book.org/).
+- The lecture slides and selected papers mentioned during the course
 
 ---
 
