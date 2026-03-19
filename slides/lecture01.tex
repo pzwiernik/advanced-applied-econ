@@ -599,26 +599,26 @@ Zero partial correlation is equivalent to conditional independence.
 \end{block}
 \end{frame}
 
-\begin{frame}{Partial correlation and the precision matrix}
-If $X=(X_1,\ldots,X_m)$ has covariance matrix $\Sigma$ and precision matrix $K=\Sigma^{-1}$, then
-\[
-\rho_{X_i,X_j\cdot X_{\{1,\ldots,m\}\setminus\{i,j\}}}
-=
--\frac{K_{ij}}{\sqrt{K_{ii}K_{jj}}}.
-\]
-
-\begin{block}{Regression link}
-In the regression of $X_i$ on the remaining variables,
-the coefficient of $X_j$ is
-\[
-\beta_{ij}=-\frac{K_{ij}}{K_{ii}}.
-\]
-\end{block}
-
-\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
-In Gaussian models, zeros in the precision matrix are zeros in direct predictive content.
-\end{beamercolorbox}
-\end{frame}
+%\begin{frame}{Partial correlation and the precision matrix}
+%If $X=(X_1,\ldots,X_m)$ has covariance matrix $\Sigma$ and precision matrix $K=\Sigma^{-1}$, then
+%\[
+%\rho_{X_i,X_j\cdot X_{\{1,\ldots,m\}\setminus\{i,j\}}}
+%=
+%-\frac{K_{ij}}{\sqrt{K_{ii}K_{jj}}}.
+%\]
+%
+%\begin{block}{Regression link}
+%In the linear regression of $X_i$ on the remaining variables,
+%the coefficient of $X_j$ is
+%\[
+%\beta_{ij}=-\frac{K_{ij}}{K_{ii}}.
+%\]
+%\end{block}
+%
+%\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+%In Gaussian models, zeros in the precision matrix are zeros in direct predictive content.
+%\end{beamercolorbox}
+%\end{frame}
 
 \begin{frame}{Economic interpretation of sparse precision matrices}
 Suppose $X$ is a vector of many macro or financial variables.
@@ -701,7 +701,7 @@ Then the marginal comparison may mix:\\[2mm]
 \end{frame}
 
 \begin{frame}{Example 1: Kidney stones}
-Ignoring hidden confounding can lead to wrong causal conclusions.
+Ignoring confounding can lead to wrong causal conclusions.
 
 \begin{itemize}
 \item Study of $700$ patients with kidney stones [Charig,1986].
@@ -796,7 +796,7 @@ Then being selected into your dating pool depends on both variables.
 
 \begin{center}
 \begin{tikzpicture}[
-node distance=1.5cm,
+node distance=1cm,
 every node/.style={
 circle,
 draw,
@@ -810,8 +810,8 @@ Ystyle/.style={fill=green!20},
 Sstyle/.style={fill=orange!25}
 ]
 \node[Xstyle] (X) {$X$};
-\node[Ystyle] (Y) [right=3cm of X] {$Y$};
-\node[Sstyle] (S) [below=1.8cm of $(X)!0.5!(Y)$] {$S$};
+\node[Ystyle] (Y) [right=1.2cm of X] {$Y$};
+\node[Sstyle] (S) [below=1cm of $(X)!0.5!(Y)$] {$S$};
 \draw[edge] (X) -- (S);
 \draw[edge] (Y) -- (S);
 \end{tikzpicture}
@@ -826,132 +826,144 @@ X \not\!\!\!\indep Y\mid S.
 \end{alertblock}
 \end{frame}
 
-\begin{frame}{Economic version of Berkson's paradox}
-Selection bias creates misleading dependence in many economic settings.
+\begin{frame}{Economic versions of Berkson's paradox}
+Selection can create misleading dependence in many economic settings.
 
 \begin{block}{Examples}
 \begin{itemize}
-    \item Wage and job satisfaction among workers who stay in a demanding sector
-    \item Risk tolerance and returns among investors who choose a specific asset class
-    \item Ability and family background among students admitted to a selective program
+    \item \textbf{Wage and job satisfaction} among workers who \alert{stay} in a demanding sector.  \\
+    {\small Workers with lower wages may stay only if job satisfaction is high, and vice versa.}
+
+%    \item \textbf{Risk tolerance and realized returns} among investors who \alert{choose} a risky asset class.  \\
+%    {\small     Entry into the asset class  may depend on both risk tolerance and expected performance.}
+
+    \item \textbf{Ability and family background} among students \alert{admitted} to a selective program. \\ 
+    {\small Students with weaker background may enter only if ability is very high, and vice versa.}
 \end{itemize}
 \end{block}
 
 \begin{alertblock}{General lesson}
-Selection can create patterns that are absent in the full population.
+These variables may be weakly related, or even unrelated, in the full population.
+But after conditioning on the selection event, they can become associated.
 \end{alertblock}
 
 \begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
-Conditioning on a consequence can be more dangerous than conditioning on a cause.
+Conditioning on a consequence can create dependence that was not there before.
 \end{beamercolorbox}
 \end{frame}
 
-\begin{frame}{Evaluating an AI hiring system}
-Suppose a company uses an AI system to screen job applicants.
 
-\medskip
 
-Variables:
-\begin{itemize}
-    \item $G$ : group
-    \item $S$ : skill
-    \item $H$ : hiring decision
-    \item $Y$ : job performance
-\end{itemize}
+%\begin{frame}{Evaluating an AI hiring system}
+%Suppose a company uses an AI system to screen job applicants.
+%
+%\medskip
+%
+%Variables:
+%\begin{itemize}
+%    \item $G$ : group
+%    \item $S$ : skill
+%    \item $H$ : hiring decision
+%    \item $Y$ : job performance
+%\end{itemize}
+%
+%\begin{center}
+%\begin{tikzpicture}[
+%node distance=1.0cm,
+%every node/.style={
+%circle,
+%draw,
+%very thick,
+%minimum size=6mm,
+%font=\bfseries
+%},
+%edge/.style={->,very thick},
+%Gstyle/.style={fill=teal!20},
+%Sstyle/.style={fill=violet!20},
+%Hstyle/.style={fill=orange!25},
+%Ystyle/.style={fill=green!20}
+%]
+%\node[Gstyle] (G) {$G$};
+%\node[Hstyle] (H) [right=of G] {$H$};
+%\node[Sstyle] (S) [right=of H] {$S$};
+%\node[Ystyle] (Y) [right=of S] {$Y$};
+%
+%\draw[edge] (G) -- (H);
+%\draw[edge] (S) -- (H);
+%\draw[edge] (S) -- (Y);
+%\end{tikzpicture}
+%\end{center}
+%
+%\medskip
+%
+%The firm evaluates the system only among \textbf{hired workers}.
+%\end{frame}
 
-\begin{center}
-\begin{tikzpicture}[
-node distance=1.0cm,
-every node/.style={
-circle,
-draw,
-very thick,
-minimum size=6mm,
-font=\bfseries
-},
-edge/.style={->,very thick},
-Gstyle/.style={fill=teal!20},
-Sstyle/.style={fill=violet!20},
-Hstyle/.style={fill=orange!25},
-Ystyle/.style={fill=green!20}
-]
-\node[Gstyle] (G) {$G$};
-\node[Hstyle] (H) [right=of G] {$H$};
-\node[Sstyle] (S) [right=of H] {$S$};
-\node[Ystyle] (Y) [right=of S] {$Y$};
-
-\draw[edge] (G) -- (H);
-\draw[edge] (S) -- (H);
-\draw[edge] (S) -- (Y);
-\end{tikzpicture}
-\end{center}
-
-\medskip
-
-The firm evaluates the system only among \textbf{hired workers}.
-\end{frame}
-
-\begin{frame}{A Simpson-type distortion in hiring}
-Suppose performance depends only on skill.
-
-\medskip
-
-\begin{center}
-\begin{minipage}{0.40\textwidth}
-\centering
-\textbf{Within skill level}
-
-\begin{tabular}{lc}
-\hline
-Skill & Success \\
-\hline
-High & 80\% \\
-Low  & 20\% \\
-\hline
-\end{tabular}
-\end{minipage}
-\hspace{0.08\textwidth}
-\begin{minipage}{0.42\textwidth}
-\centering
-\textbf{Among hired workers}
-
-\begin{tabular}{lcc}
-\hline
-Group & High skill & Success \\
-\hline
-A & 50\% & 50\% \\
-B & 90\% & 74\% \\
-\hline
-\end{tabular}
-\end{minipage}
-\end{center}
-
-\medskip
-
-Thus
-\[
-\E[Y\mid G=B,H=1]>\E[Y\mid G=A,H=1].
-\]
-
-\begin{alertblock}{What happened?}
-Conditioning on hiring changes the composition of the groups.
-Among hired workers, group and skill become associated:
-\[
-G \not\!\!\!\indep S\mid H.
-\]
-\end{alertblock}
-\end{frame}
+%\begin{frame}{A Simpson-type distortion in hiring}
+%Suppose performance depends only on skill.
+%
+%\medskip
+%
+%\begin{center}
+%\begin{minipage}{0.40\textwidth}
+%\centering
+%\textbf{Within skill level}
+%
+%\begin{tabular}{lc}
+%\hline
+%Skill & Success \\
+%\hline
+%High & 80\% \\
+%Low  & 20\% \\
+%\hline
+%\end{tabular}
+%\end{minipage}
+%\hspace{0.08\textwidth}
+%\begin{minipage}{0.42\textwidth}
+%\centering
+%\textbf{Among hired workers}
+%
+%\begin{tabular}{lcc}
+%\hline
+%Group & High skill & Success \\
+%\hline
+%A & 50\% & 50\% \\
+%B & 90\% & 74\% \\
+%\hline
+%\end{tabular}
+%\end{minipage}
+%\end{center}
+%
+%\medskip
+%
+%Thus
+%\[
+%\E[Y\mid G=B,H=1]>\E[Y\mid G=A,H=1].
+%\]
+%
+%\begin{alertblock}{What happened?}
+%Conditioning on hiring changes the composition of the groups.
+%Among hired workers, group and skill become associated:
+%\[
+%G \not\!\!\!\indep S\mid H.
+%\]
+%\end{alertblock}
+%\end{frame}
 
 
 
 \begin{frame}{Exercise: mediation}
 Suppose
 \[
+X,\ \varepsilon_Z,\ \varepsilon_Y
+\quad\text{are jointly independent,}
+\]
+and
+\[
 Z=aX+\varepsilon_Z,
 \qquad
-Y=bZ+\varepsilon_Y,
+Y=bZ+\varepsilon_Y.
 \]
-with independent noise terms.
 
 \begin{enumerate}
     \item Is $X\indep Y$?
@@ -967,6 +979,7 @@ $Z$ an intermediate behavioural response,
 and $Y$ an outcome.
 \end{block}
 \end{frame}
+
 
 \begin{frame}{Exercise: confounding}
 Suppose
