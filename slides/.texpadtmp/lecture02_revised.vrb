@@ -1,0 +1,23 @@
+\frametitle{A small GGM demo (graphical lasso)}
+\small
+\begin{lstlisting}[language=R,basicstyle=\ttfamily\small]
+library(MASS)
+library(igraph)
+library(qgraph)
+
+set.seed(1)
+m <- 20; n <- 400
+
+g <- igraph::sample_gnp(n = m, p = 0.12, directed = FALSE, loops = FALSE)
+Adj <- igraph::as_adjacency_matrix(g, sparse = FALSE)
+diag(Adj) <- 0
+
+K <- diag(m) + 0.25 * (Adj + t(Adj))
+Sigma <- solve(K)
+
+X <- MASS::mvrnorm(n = n, mu = rep(0,m), Sigma = Sigma)
+S <- cov(X)
+
+Khat <- qgraph::EBICglasso(S, n = n)  # estimated precision
+qgraph(Khat, graph = "glasso", layout = "spring", labels = FALSE)
+\end{lstlisting}

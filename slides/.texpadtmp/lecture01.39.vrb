@@ -1,0 +1,26 @@
+\frametitle{Florida murderers}
+Sentences in 4863 murder cases in Florida over the six
+years 1973-78
+\begin{center}
+\begin{tabular}{lcc} \hline
+&\multicolumn{2}{c}{Sentence}\\
+\cline{2-3}
+Murderer&Death&Other\\
+\hline Black&59&2547\\ White&72&2185\\
+\hline
+\end{tabular}
+\end{center}
+The table shows a greater proportion
+ of white murderers receiving death sentence than black
+(3.2\% vs.\ 2.3\%).
+	\begin{lstlisting}
+> flor <- matrix(c(59,72,2547,2185),2,2)
+> dimnames(flor) <- list(Murderer=c("Black","White"),Sentence=c("Death","Other"))
+> chisq.test(flor)
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  flor
+X-squared = 3.6117, df = 1, p-value = 0.05737
+# in the alternative we observe whites to be more often sentenced to death
+\end{lstlisting}

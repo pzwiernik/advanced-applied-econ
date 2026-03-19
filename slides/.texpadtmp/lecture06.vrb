@@ -1,0 +1,30 @@
+\frametitle{A tiny latent-factor adjustment in \texttt {R}}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+set.seed(1)
+n <- 2500
+U <- rnorm(n)
+
+X1 <- 0.8*U + rnorm(n)
+X2 <- 0.7*U + rnorm(n)
+X3 <- 0.9*U + rnorm(n)
+D  <- U + rnorm(n)
+Y  <- 1.0*D + U + rnorm(n)
+
+X <- cbind(X1, X2, X3)
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+pc1 <- prcomp(X, scale. = TRUE)$x[,1]
+
+coef(lm(Y ~ D))
+coef(lm(Y ~ D + pc1))
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+The first principal component acts as a rough estimate of the hidden confounder and can reduce omitted-variable bias.
+\end{alertblock}

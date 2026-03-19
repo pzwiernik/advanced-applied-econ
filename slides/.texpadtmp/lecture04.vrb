@@ -1,0 +1,30 @@
+\frametitle{A toy simulation with common volatility}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+set.seed(1)
+n <- 2000
+
+sigma <- abs(rnorm(n)) + 0.3
+u1 <- rt(n, df = 5)
+u2 <- rt(n, df = 5)
+
+e1 <- sigma * u1
+e2 <- sigma * u2
+x1 <- e1
+x2 <- 0.8 * x1 + e2
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+par(mfrow = c(1,2))
+plot(x1, x2, pch = 16, cex = .4)
+plot(abs(e1), abs(e2), pch = 16,
+     cex = .4)
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+The second plot reveals common volatility in the shocks. This violates strict independence, even though the directional SEM remains meaningful.
+\end{alertblock}

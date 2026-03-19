@@ -1,0 +1,17 @@
+\frametitle{Structural Causal Models}
+A structural causal model (SCM) consists of structural assignments
+$$
+X_i := f_i(\pa_i,\epsilon_i)\qquad (i=1,\ldots,m),
+$$
+where $\pa_i\subset \{X_1,\ldots,X_m\}\setminus \{X_i\}$ and all $\epsilon_i$ are jointly independent.\\[.2cm]
+The underlying graph $G$ is defined in the obvious way.
+\begin{alertblock}{If $G$ is a DAG, simulating from an SCM is easy}
+\begin{lstlisting}
+set.seed(1); n <- 100
+X3 <- runif(n)-0.5
+X1 <- X3*X3 + rnorm(n)
+X2 <- sin(X1) + rnorm(n)^2
+X4 <- X2 + exp(X3 + rnorm(n))
+X  <- cbind(X1,X2,X3,X4)
+\end{lstlisting}
+\end{alertblock}

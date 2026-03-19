@@ -1,0 +1,11 @@
+\frametitle{Bayesian Structure Learning using Birth-Death MCMC}
+\texttt{bdgraph.mpl} in the package \texttt{BDgraph} can be used for discrete data. Consider the data table $X$ defined in Slide~\ref{DepAnx}.
+\begin{lstlisting}
+> install.packages("BDgraph"); library(BDgraph)
+> X.fit <- bdgraph.mpl(X,method="dgm-binary",g.prior=.5)
+> A <- X.fit$p_links+t(X.fit$p_links)
+> qgraph::qgraph(A,layout="spring")
+\end{lstlisting}
+\begin{center}
+	\includegraphics[scale=.4]{pics/BDgraphDA}
+\end{center}

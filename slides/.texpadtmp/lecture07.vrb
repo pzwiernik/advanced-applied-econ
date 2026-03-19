@@ -1,0 +1,31 @@
+\frametitle{A package-style example in \texttt {R}}
+For two-stage randomized designs with interference, \texttt{RCT2} and \texttt{latenetwork} provide useful starting points.
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+# RCT2: two-stage randomized designs
+library(RCT2)
+
+# see package vignette for the india
+# insurance example
+# rand <- CADErand(india, 0.95)
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+# latenetwork: unknown interference
+# with IV-style estimands
+library(latenetwork)
+
+# data <- datageneration(n = 2000)
+# result <- direct(Y=data$Y, D=data$D,
+#                  Z=data$Z, A=data$A,
+#                  S=rep(TRUE, 2000))
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+These packages are useful anchors, but the main conceptual work is still in specifying the network and the exposure mapping.
+\end{alertblock}

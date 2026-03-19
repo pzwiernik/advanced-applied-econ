@@ -1,0 +1,949 @@
+% !TEX program = pdflatex
+\documentclass[dvipsnames,aspectratio=169,handout]{beamer}
+\input{mybeamerstyle.tex}
+
+\title{Advanced techniques in applied economics}
+\subtitle{Lecture 2: Gaussian and non-paranormal graphical models}
+\author{Piotr Zwiernik}
+\date{Spring 2026}
+
+\begin{document}
+
+% ------------------------------------------------------------
+% Title
+% ------------------------------------------------------------
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% ------------------------------------------------------------
+% Opening
+% ------------------------------------------------------------
+
+\section{Overview}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\huge \textcolor{DarkRed}{From conditional independence to networks}}
+\end{center}
+\end{frame}
+
+\begin{frame}{What did we learn last time?}
+\begin{itemize}
+    \item Conditional independence is a \imp{structural} concept.
+    \item In Gaussian models,
+    \[
+    X_i\indep X_j\mid X_{\setminus ij}
+    \qquad\Longleftrightarrow\qquad
+    K_{ij}=0,
+    \]
+    where $K=\Sigma^{-1}$ is the precision matrix.
+    \item Conditioning can remove dependence, but it can also create it.
+\end{itemize}
+
+\vspace{2mm}
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+\textbf{Today:} we turn these conditional independence statements into \imp{graphs},
+and then learn those graphs from data.
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{Why might economists care about undirected graphs?}
+Undirected graphical models can be useful when we want a parsimonious summary of \imp{conditional dependence structure} in high dimensions.
+
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{Examples from economics and finance}
+\small 
+\begin{itemize}
+    \item Which asset returns remain associated after controlling for the rest?
+    \item Which macro indicators still move together once common patterns are accounted for?
+    \item Which sectors appear conditionally linked in stress periods?
+\end{itemize}
+\end{block}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{block}{Why this can be useful}
+\small 
+\begin{itemize}
+    \item It reduces a very complex dependence structure to a sparse network.
+    \item It helps distinguish marginal comovement from conditional association.
+    \item It can serve as an exploratory map before moving to causal models.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+\textbf{Recall:} In the Gaussian  case 
+covariance is marginal, precision is conditional.
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{Roadmap for today}
+\begin{enumerate}
+    \item Undirected graphs and conditional independence
+    \item Gaussian graphical models
+    \item Likelihood and estimation under graph constraints
+    \item High-dimensional learning and the graphical lasso
+    \item Robustness: non-paranormal graphical models
+    \item An applied example in \texttt{R}
+\end{enumerate}
+\end{frame}
+
+% ------------------------------------------------------------
+% Graphs
+% ------------------------------------------------------------
+
+\section{Undirected graphs}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 1: Undirected graphical models}}
+\end{center}
+\end{frame}
+
+\begin{frame}{A first example of an undirected graph}
+Suppose we have four variables $X_1,X_2,X_3,X_4$ and the graph
+
+\begin{center}
+\begin{tikzpicture}[scale=0.7,
+vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
+\node[vertex] (1) at (0,0) {$1$};
+\node[vertex] (2) at (2,1) {$2$};
+\node[vertex] (3) at (4,0) {$3$};
+\node[vertex] (4) at (2,-1.3) {$4$};
+\draw[very thick] (1)--(2);
+\draw[very thick] (2)--(3);
+\draw[very thick] (2)--(4);
+\end{tikzpicture}
+\end{center}
+
+\begin{alertblock}{How should we read it?}
+The missing edge between $1$ and $3$ suggests that
+$
+X_1 \indep X_3 \mid X_2,X_4.
+$\\[2mm]
+Likewise,
+$
+X_1 \indep X_4 \mid X_2,X_3.
+$
+\end{alertblock}
+
+\begin{block}{Main idea}
+An undirected graph is a compact way to record which conditional independence statements we want to impose.
+\end{block}
+\end{frame}
+
+\begin{frame}{Undirected graphs as models of conditional independence}
+Let $V=\{1,\ldots,m\}$ index variables $X_1,\ldots,X_m$.
+An \imp{undirected graph} $G=(V,E)$ has
+\begin{itemize}
+    \item one vertex for each variable,
+    \item an edge $i-j$ if the model does \emph{not} impose conditional independence between $X_i$ and $X_j$.
+\end{itemize}
+
+\begin{alertblock}{Interpretation}
+A missing edge is informative:
+it says that the corresponding variables should become independent once the remaining variables are held fixed.
+\end{alertblock}
+\medskip
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+An undirected graph is not a causal diagram.  
+It is a map of conditional independence structure.
+\end{beamercolorbox}
+\end{frame}
+
+
+
+\begin{frame}{Pairwise Markov property}
+For an undirected graph $G$, the \imp{pairwise Markov property} says:
+\[
+ i\not\sim j
+ \qquad\Longrightarrow\qquad
+ X_i\indep X_j\mid X_{V\setminus\{i,j\}}.
+\]
+
+\begin{block}{Interpretation}
+If there is no edge between $i$ and $j$, then after controlling for all the other variables,
+there is no remaining conditional association between $X_i$ and $X_j$.
+\end{block}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+A missing edge does \textbf{not} mean marginal independence.  
+It means independence \emph{after conditioning on the remaining variables}.
+\end{beamercolorbox}
+\end{frame}
+
+
+
+\begin{frame}{Global Markov property}
+
+Let $A$, $B$, and $C$ be disjoint subsets of vertices.
+If every path from $A$ to $B$ passes through $C$, then $C$ \imp{separates} $A$ and $B$.
+\begin{center}
+\begin{tikzpicture}[scale=1.0,
+vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
+\node[vertex] (1) at (0,0) {$1$};
+\node[vertex] (2) at (1.4,0) {$2$};
+\node[vertex,fill=red!20] (3) at (2.8,0) {$3$};
+\node[vertex] (4) at (4.2,0) {$4$};
+\node[vertex] (5) at (5.6,0) {$5$};
+
+\draw[very thick] (1)--(2)--(3)--(4)--(5);
+
+\node[blue!70!black] at (0.7,0.6) {\small $A=\{1,2\}$};
+\node[green!50!black] at (4.9,0.6) {\small $B=\{4,5\}$};
+\node[red!70!black] at (2.8,-0.7) {\small $C=\{3\}$};
+\end{tikzpicture}
+\end{center}\vspace{-6mm}
+\begin{alertblock}{Global Markov property}
+If $C$ separates $A$ and $B$ in $G$, then
+\[
+X_A \indep X_B \mid X_C.
+\]
+{\small In the graph above,
+$
+(X_1,X_2)\indep (X_4,X_5)\mid X_3.
+$}
+\end{alertblock}
+
+\begin{block}{Why this is stronger than the pairwise property}
+The pairwise Markov property only gives CI conditioning on \emph{all remaining variables}.
+The global Markov property lets us read off much richer statements from graph separation.
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}{Hammersley--Clifford theorem}
+For a \textbf{positive} distribution, the following are equivalent:
+\begin{enumerate}
+    \item the distribution is pairwise Markov with respect to the graph $G$,
+    \item the distribution is global Markov with respect to the graph $G$,
+    \item the density factorizes over the cliques of $G$.
+\end{enumerate}
+
+\begin{alertblock}{Factorization form}
+If $C_1,\ldots,C_r$ are the cliques of $G$, then
+\[
+f(x)\propto \prod_{k=1}^r \psi_{C_k}(x_{C_k})
+\]
+for suitable clique potentials $\psi_{C_k}$.
+\end{alertblock}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+Hammersley--Clifford is the theorem that connects graph separation with probabilistic factorization.
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{A tiny factorization example}
+Consider the chain graph
+\vspace{-5mm}\begin{center}
+\begin{tikzpicture}[scale=1.0,
+vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
+\node[vertex] (1) at (0,0) {$1$};
+\node[vertex] (2) at (1.8,0) {$2$};
+\node[vertex] (3) at (3.6,0) {$3$};
+\draw[very thick] (1)--(2)--(3);
+\end{tikzpicture}
+\end{center}
+
+Its cliques are $\{1,2\}$ and $\{2,3\}$, so by Hammersley--Clifford a positive graphical model over this graph has density
+\[
+f(x_1,x_2,x_3)\propto \psi_{12}(x_1,x_2)\,\psi_{23}(x_2,x_3).
+\]
+
+\begin{alertblock}{Why this implies conditional independence}
+Fixing $x_2$, we get
+\[
+f(x_1,x_3\mid x_2)\propto \psi_{12}(x_1,x_2)\,\psi_{23}(x_2,x_3).
+\]
+The first factor depends only on $x_1$, the second only on $x_3$, so after normalization
+\[
+f(x_1,x_3\mid x_2)=f(x_1\mid x_2)\,f(x_3\mid x_2).
+\]
+Hence
+\[
+X_1\indep X_3\mid X_2.
+\]
+\end{alertblock}
+
+\end{frame}
+
+% ------------------------------------------------------------
+% Gaussian graphical models
+% ------------------------------------------------------------
+
+\section{Gaussian graphical models}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 2: Gaussian graphical models}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Gaussian graphical models}
+Let $X\sim \mathcal N_m(\mu,\Sigma)$ and let $K=\Sigma^{-1}$.
+Given an undirected graph $G=(V,E)$, the corresponding \imp{Gaussian graphical model} is
+\[
+\mathcal M(G)=\bigl\{\mathcal N_m(\mu,\Sigma): K_{ij}=0 \text{ whenever } i\not\sim j\bigr\}.
+\]
+
+\begin{alertblock}{Key equivalence}
+For Gaussian data,
+\[
+i\not\sim j
+\quad\Longleftrightarrow\quad
+K_{ij}=0
+\quad\Longleftrightarrow\quad
+X_i\indep X_j\mid X_{V\setminus\{i,j\}}.
+\]
+\end{alertblock}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+In Gaussian models, learning the graph is the same as learning the zero pattern of the precision matrix.
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{A four-variable example}
+Suppose
+\[
+K=
+\begin{pmatrix}
+* & * & 0 & 0\\
+* & * & * & *\\
+0 & * & * & 0\\
+0 & * & 0 & *
+\end{pmatrix}.
+\]
+Then the corresponding graph is
+\begin{center}
+\begin{tikzpicture}[scale=0.6,
+vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
+\node[vertex] (1) at (0,0) {$1$};
+\node[vertex] (2) at (2,1.2) {$2$};
+\node[vertex] (3) at (4,0) {$3$};
+\node[vertex] (4) at (2,-1.2) {$4$};
+\draw[very thick] (1)--(2);
+\draw[very thick] (2)--(3);
+\draw[very thick] (2)--(4);
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{}
+The zeros $K_{13}=K_{14}=K_{34}=0$ mean:\;\;
+$
+X_1\indep X_3\mid X_{\{2,4\}},\;\;
+X_1\indep X_4\mid X_{\{2,3\}},\;\;
+X_3\indep X_4\mid X_{\{1,2\}}.
+$\\[2mm]
+Hammersley-Clifford gives, e.g., $X_1\indep X_3|X_2$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Marginal dependence vs direct dependence}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{Covariance matrix $\Sigma$}
+Describes \textbf{marginal} comovement.
+Two variables may have large covariance simply because they share common shocks.
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Precision matrix $K$}
+Describes \textbf{conditional} relations.
+It tells us what dependence remains after controlling for all other variables.
+\end{block}
+\end{column}
+\end{columns}
+
+\vspace{2mm}
+\begin{alertblock}{Economic interpretation}
+In finance, a dense covariance matrix may reflect market-wide exposure.
+A sparse precision matrix aims to isolate direct links.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Partial correlations}
+For Gaussian data, the precision matrix can be rescaled into partial correlations:
+\[
+\rho_{ij\cdot V\setminus\{i,j\}}
+=
+-\frac{K_{ij}}{\sqrt{K_{ii}K_{jj}}}.
+\]
+
+\begin{block}{Interpretation}
+This is the correlation between $X_i$ and $X_j$ after linearly removing the effect of all remaining variables.
+\end{block}
+
+\begin{alertblock}{Graphical interpretation}
+A zero partial correlation corresponds to a missing edge in the Gaussian graph.
+\end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Likelihood
+% ------------------------------------------------------------
+
+\section{Likelihood and estimation}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 3: Likelihood and estimation}}
+\end{center}
+\end{frame}
+
+\begin{frame}{The Gaussian likelihood}
+Suppose $X^{(1)},\ldots,X^{(n)}\overset{iid}{\sim}\mathcal N_m(\mu,\Sigma)$ and let
+\[
+S=\frac{1}{n}\sum_{k=1}^n (X^{(k)}-\bar X)(X^{(k)}-\bar X)^\top
+\]
+be the sample covariance matrix.
+
+\begin{block}{Profile log-likelihood in $K=\Sigma^{-1}$}
+Up to an additive constant,
+\[
+\ell(K)=\frac{n}{2}\bigl(\log\det K-\tr(SK)\bigr).
+\]
+\end{block}
+
+\begin{alertblock}{Unconstrained MLE}
+If there are no graph constraints and $S$ is invertible, the MLE is
+\[
+\hat K=S^{-1}.
+\]
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Estimation under a fixed graph}
+If the graph $G$ is known, we maximize the Gaussian likelihood subject to the zero constraints
+\[
+K_{ij}=0 \qquad \text{for all } i\not\sim j.
+\]
+
+\begin{block}{Constrained MLE: maximize over $K\in \S^m_+$ such that $K_{ij}=0\text{ if }i\not\sim j$}
+\[
+\hat K_G
+\;=\;
+\arg\max
+\Bigl\{\log\det K-\tr(SK)\Bigr\}.
+\]
+\end{block}
+
+\begin{alertblock}{Interpretation}
+The most likely distribution whose direct-dependence pattern agrees with the graph.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{What is hard?}
+Even for Gaussian data, two different problems must be separated.
+
+\begin{enumerate}
+    \item \textbf{Estimation:} if the graph is known, estimate $K$ under the zero constraints.
+    \item \textbf{Structure learning:} if the graph is unknown, search over many possible zero patterns.
+\end{enumerate}
+
+\begin{alertblock}{Combinatorial explosion}
+The number of undirected graphs on $m$ vertices is
+\[
+2^{\binom{m}{2}}.
+\]
+So exhaustive search is impossible even for moderate $m$.
+\end{alertblock}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+The real challenge is to learn the sparsity pattern.
+\end{beamercolorbox}
+\end{frame}
+
+%\begin{frame}{A reminder on Schur complements}
+%Partition
+%\[
+%\Sigma=
+%\begin{pmatrix}
+%\Sigma_{AA} & \Sigma_{AB}\\
+%\Sigma_{BA} & \Sigma_{BB}
+%\end{pmatrix}.
+%\]
+%Then the conditional covariance is
+%\[
+%\var(X_A\mid X_B)=
+%\Sigma_{AA}-\Sigma_{AB}\Sigma_{BB}^{-1}\Sigma_{BA}.
+%\]
+%
+%\begin{block}{Why mention this again?}
+%Schur complements explain why conditioning changes covariance structure,
+%and they are behind the algebra linking
+%\begin{center}
+%conditional distributions, precision matrices, and graph constraints.
+%\end{center}
+%\end{block}
+%\end{frame}
+
+% ------------------------------------------------------------
+% High dimension
+% ------------------------------------------------------------
+
+\section{High-dimensional learning}
+
+\begin{frame}{Why naive covariance inversion fails}
+When the dimension $m$ is large relative to the sample size $n$:\\[2mm]
+\qquad $\bullet$ $S$ is noisy\qquad 
+    $\bullet$ $S^{-1}$ is unstable\qquad 
+    $\bullet$ if $m>n$, then $S$ is singular.
+%\begin{itemize}
+%    \item $S$ is noisy,
+%    \item $S^{-1}$ is unstable,
+%    \item and if $m>n$, then $S$ is singular.
+%\end{itemize}
+
+\begin{alertblock}{Not the first time you encounter this problem}
+This is the same basic problem as in high-dimensional regression:
+too many unknown parameters, not enough data.
+\end{alertblock}
+
+\begin{columns}[T]
+\begin{column}{0.42\textwidth}
+\begin{block}{Regression}
+Estimate $\beta\in \R^p$ ($p$ large) in\\[2mm]
+\qquad $
+Y=X\beta+\varepsilon.
+$\\[2mm]
+Solution: impose sparsity with LASSO.
+\end{block}
+\end{column}
+
+\begin{column}{0.52\textwidth}
+\begin{block}{Graph learning}
+Estimate the precision matrix $K=\Sigma^{-1}\in \S^m_+$.\\[2mm]
+Here $m$ is large.\\[2mm]
+Solution: impose sparsity on  $K$.
+\end{block}
+\end{column}
+\end{columns}
+
+\vspace{1mm}
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+Graphical LASSO is the precision-matrix analogue of LASSO regression.
+\end{beamercolorbox}
+\end{frame}
+\begin{frame}[fragile]{A quick concentration experiment}
+Even in a simple Gaussian model, estimating a large covariance matrix is difficult.
+
+\begin{lstlisting}
+library(MASS)
+set.seed(1)
+m <- 100
+n <- 80
+Sigma <- diag(m)
+X <- mvrnorm(n, mu = rep(0,m), Sigma = Sigma)
+S <- cov(X)
+range(eigen(S)$values)
+
+det(S)   # numerically unstable or zero when m >= n
+\end{lstlisting}
+
+\begin{alertblock}{Problem}
+The sample covariance matrix may be poorly behaved exactly in the regimes where network methods are most needed.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Graphical lasso}
+A standard approach is to add an $\ell_1$ penalty to encourage sparsity:
+\[
+\hat K_\lambda
+=
+\arg\max_{K\succ 0}
+\Bigl\{\log\det K-\tr(SK)-\lambda\sum_{i\neq j}|K_{ij}|\Bigr\}.
+\]
+
+\begin{alertblock}{The role of the penalty parameter $\lambda$}
+The penalty shrinks many off-diagonal entries toward zero,
+producing a sparse estimated graph.
+\end{alertblock}
+\begin{columns}[T]
+\begin{column}{0.47\textwidth}
+\ \\[2mm]
+\textcolor{DarkBlue}{\Large Why the $\ell_1$ penalty helps?}\\[3mm]
+\begin{block}{Economic reason}
+A sparse graph encodes the belief that most pairs of variables are not directly linked once the rest is controlled for.
+\end{block}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{block}{Statistical reason}
+It reduces variance and stabilizes estimation when $m$ is large.
+\end{block}
+\begin{block}{Interpretive reason}
+It produces sparse networks that can actually be read and discussed.
+\end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+\begin{frame}{Choosing the penalty parameter}
+In practice, $\lambda$ must be chosen from the data.
+Common approaches include:
+\begin{itemize}
+    \item cross-validation,
+    \item information criteria such as BIC or EBIC,
+    \item stability-based methods.
+\end{itemize}
+
+\begin{alertblock}{Practical lesson}
+There is no single ``correct'' graph.
+What we estimate depends on the statistical criterion and the amount of regularization.
+\end{alertblock}
+
+\begin{block}{}
+EBIC-based choices are convenient and are implemented in packages such as \texttt{qgraph} and \texttt{huge}.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{A first Gaussian graph in \texttt{R}}
+
+\begin{block}{Example data}
+The dataset \texttt{stockdata} contains stock-return data.
+Here we take the first 40 variables, standardize them, and estimate a sparse Gaussian graphical model.
+\end{block}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+library(huge)
+library(qgraph)
+data(stockdata)
+
+x <- scale(stockdata$data[1:40,])
+
+out <- huge(x, method = "glasso")
+plot(out)
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+# pick one graph along the
+# regularization path
+Khat <- out$icov[[10]]
+Khat <- (Khat + t(Khat))/2
+
+qgraph(-cov2cor(Khat),
+       layout = "spring")
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{What is the path?}
+\texttt{huge(..., method = "glasso")} fits the graphical LASSO for many values of the penalty parameter $\lambda$.
+This gives a whole \imp{regularization path}, from denser graphs to sparser ones.
+The command \texttt{out\$icov[[10]]} picks one particular estimate along that path.
+\end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Nonparanormal
+% ------------------------------------------------------------
+
+\section{Beyond Gaussianity}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 5: Beyond Gaussianity}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Why Gaussianity is often too optimistic}
+Economic data are rarely exactly Gaussian.
+
+\begin{itemize}
+    \item asset returns are heavy-tailed,
+    \item macro and firm-level variables may be skewed,
+    \item relationships are often nonlinear,
+    \item monotone rescalings can substantially change Pearson correlations.
+\end{itemize}
+
+%\begin{alertblock}{Problem}
+%If we apply Gaussian tools blindly, the estimated graph may reflect the wrong notion of dependence.
+%\end{alertblock}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+We would like a model that keeps the Gaussian graphical machinery,
+but is less sensitive to non-Gaussian marginals.
+\end{beamercolorbox}
+\end{frame}
+
+
+\begin{frame}{Gaussian copulas and the non-paranormal model}
+A flexible alternative is to assume that the observed variables are monotone transformations of latent Gaussian variables.
+
+\begin{block}{Non-paranormal model}
+We say that $X=(X_1,\ldots,X_m)$ is \imp{non-paranormal} if there exist strictly monotone functions
+$f_1,\ldots,f_m$ such that
+\[
+(f_1(X_1),\ldots,f_m(X_m))\sim \mathcal N_m(\mu,\Sigma).
+\]
+\end{block}
+\medskip
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+Non-paranormal models relax Gaussian marginals without abandoning Gaussian graphical structure.
+\end{beamercolorbox}
+\end{frame}
+
+
+\begin{frame}{Why monotone transformations preserve the graph}
+Suppose
+\[
+Y_i=f_i(X_i), \qquad i=1,\ldots,m,
+\]
+where each $f_i$ is strictly monotone.
+
+\begin{alertblock}{Key fact}
+Such transformations preserve conditional independence:\\[3mm]
+\qquad\qquad\qquad\qquad\qquad\qquad$
+X_i\indep X_j\mid X_{\setminus ij}
+\quad\Longleftrightarrow\quad
+Y_i\indep Y_j\mid Y_{\setminus ij}.
+$
+\end{alertblock}
+\begin{block}{}
+Monotone transformations may change means, variances, and Pearson correlations,
+but they do not change the underlying conditional independence graph.
+\end{block}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+So if the data become Gaussian after unknown monotone transformations,
+we can still hope to recover the same graph from the observed variables.
+\end{beamercolorbox}
+\end{frame}
+
+
+\begin{frame}{Kendall's tau and monotone invariance}
+
+For two real-valued variables $X_i$ and $X_j$, Kendall's tau is defined by
+\[
+\tau_{ij}
+=
+\P\!\big((X_i-\widetilde X_i)(X_j-\widetilde X_j)>0\big)
+-
+\P\!\big((X_i-\widetilde X_i)(X_j-\widetilde X_j)<0\big),
+\]
+where $(\widetilde X_i,\widetilde X_j)$ is an independent copy of $(X_i,X_j)$.
+
+\begin{block}{}
+Kendall's tau is a rank-based measure of dependence.
+It compares how often two observations move in the same order
+(concordant pairs) versus opposite order (discordant pairs).
+\end{block}
+
+\begin{alertblock}{Crucial property}
+Kendall's tau is invariant under strictly monotone transformations:
+\[
+\tau(f_i(X_i),f_j(X_j))=\tau(X_i,X_j).
+\]
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Kendall's tau as a bridge to latent Gaussian correlation}
+
+If $(X_i,X_j)$ is bivariate Gaussian with correlation $\Sigma_{ij}$, then
+\[
+\tau_{ij}
+=
+\frac{2}{\pi}\arcsin(\Sigma_{ij}),
+\qquad\mbox{equivalently}\qquad
+\Sigma_{ij}
+=
+\sin\!\left(\frac{\pi}{2}\tau_{ij}\right).
+\]
+
+\begin{alertblock}{Why this is powerful}
+Suppose we observe:\qquad$
+Y_i=f_i(X_i), \qquad i=1,\ldots,m,
+$\\[2mm]
+where the latent vector $X$ is Gaussian and the functions $f_i$ are unknown but monotone.
+Then\\[1mm]
+\qquad\qquad\qquad\qquad\qquad\qquad$
+\tau(Y_i,Y_j)=\tau(X_i,X_j),
+$\\[1mm]
+so we can recover the latent Gaussian correlation by\\[1mm]
+\qquad\qquad\qquad\qquad\qquad\qquad$
+\Sigma_{ij}
+=
+\sin\!\left(\frac{\pi}{2}\tau(Y_i,Y_j)\right).
+$
+\end{alertblock}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+This gives a way to estimate the latent Gaussian correlation matrix from the observed data
+\textbf{without knowing the transformations $f_i$}.
+\end{beamercolorbox}
+\end{frame}
+
+
+\begin{frame}{Estimating a non-paranormal graph}
+A simple plug-in strategy is:
+
+\begin{enumerate}
+    \item compute the matrix of sample Kendall's taus $\hat\tau$,
+    \item convert it into a latent correlation estimate
+    \[
+    \hat S^{\tau}_{ij}
+    =
+    \sin\!\left(\frac{\pi}{2}\hat\tau_{ij}\right),
+    \]
+    \item apply a standard Gaussian graph-learning method to $\hat S^\tau$.
+\end{enumerate}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+Estimate the latent Gaussian correlation first, then estimate the sparse graph.
+\end{beamercolorbox}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Non-paranormal estimation in \texttt{R}}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+library(huge)
+data(stockdata)
+
+x <- scale(stockdata[,1:40])
+
+# rank-based transformation
+x.npn <- huge.npn(x,
+                  npn.func = "skeptic")
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+out.npn <- huge(x.npn,
+                method = "glasso")
+
+Khat <- out.npn$icov[[10]]
+Khat <- (Khat + t(Khat))/2
+
+qgraph(-cov2cor(Khat),
+       layout = "spring")
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+This estimates a sparse graph after a rank-based non-paranormal correction.
+\end{alertblock}
+\end{frame}
+
+
+
+\begin{frame}{Gaussian vs non-paranormal networks}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{Pure Gaussian approach}
+Uses the sample covariance or correlation matrix directly.
+Fast and elegant, but sensitive to heavy tails and marginal distortions.
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Non-paranormal approach}
+Uses rank information to recover a latent Gaussian correlation structure.
+More robust when the marginals are non-Gaussian.
+\end{block}
+\end{column}
+\end{columns}
+
+\vspace{2mm}
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+For economic data, robustness to monotone distortions is often worth the extra step.
+\end{beamercolorbox}
+\end{frame}
+
+
+% ------------------------------------------------------------
+% Application / interpretation
+% ------------------------------------------------------------
+
+\section{Application and interpretation}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 6: Interpreting estimated networks}}
+\end{center}
+\end{frame}
+
+\begin{frame}{What an estimated graph can tell us}
+A sparse graph can help us:
+\begin{itemize}
+    \item identify clusters of directly related variables,
+    \item separate broad comovement from direct links,
+    \item generate hypotheses about sectors, channels, and transmission mechanisms,
+    \item reduce a high-dimensional system to a manageable network summary.
+\end{itemize}
+
+\begin{alertblock}{Example: stock returns}
+We may see sectoral clusters, central firms, and weak cross-sector connections after conditioning on the rest of the market.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{What an estimated graph cannot tell us}
+A graph learned from observational data does \textbf{not} automatically provide:
+\begin{itemize}
+    \item causal direction,
+    \item intervention effects,
+    \item economic mechanisms by itself,
+%    \item immunity from model misspecification.
+\end{itemize}
+
+\begin{alertblock}{Important caution}
+An undirected edge means ``conditional association remains.''
+It does \textbf{not} mean ``$i$ causes $j$.''
+\end{alertblock}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+This is why our next block of lectures will move from \imp{undirected structure} to \imp{directed causal structure}.
+\end{beamercolorbox}
+\end{frame}
+
+% ------------------------------------------------------------
+% Closing
+% ------------------------------------------------------------
+
+\section{Conclusion}
+
+\begin{frame}{Take-away}
+\begin{itemize}
+    \item Undirected graphs encode conditional independence statements.
+    \item In Gaussian graphical models, missing edges correspond to zeros in the precision matrix.
+    \item The Hammersley--Clifford theorem links graph separation with factorization.
+    \item In high dimensions, sparse estimation requires regularization such as graphical lasso.
+    \item Non-paranormal methods make the same ideas more robust for heavy-tailed and non-Gaussian data.
+\end{itemize}
+
+\vspace{2mm}
+\begin{beamercolorbox}[wd=\textwidth,sep=8pt,center,rounded=true,shadow=true]{important}
+\textbf{Main lesson of today:}
+conditional independence becomes a network, and sparsity makes that network learnable.
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{Looking ahead}
+\begin{block}{Next lecture}
+We move to directed graphs.
+Instead of symmetric conditional dependence, we will study asymmetry, causal ordering, and interventions.
+\end{block}
+
+\begin{alertblock}{Coming next}
+\begin{itemize}
+    \item DAGs and d-separation,
+    \item Markov equivalence,
+    \item structural equation models,
+    \item soft interventions and policy interpretation.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\end{document}

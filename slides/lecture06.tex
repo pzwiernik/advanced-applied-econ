@@ -1,0 +1,669 @@
+
+% !TEX program = pdflatex
+\documentclass[dvipsnames,aspectratio=169,handout]{beamer}
+\input{mybeamerstyle.tex}
+
+\title{Advanced techniques in applied economics}
+\subtitle{Lecture 6: Unobserved confounding and adjustments}
+\author{Piotr Zwiernik}
+\date{Spring 2026}
+
+\newcommand{\an}{\operatorname{an}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+
+\begin{document}
+
+% ------------------------------------------------------------
+% Title
+% ------------------------------------------------------------
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+% ------------------------------------------------------------
+% Overview
+% ------------------------------------------------------------
+
+\section{Overview}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\huge \textcolor{DarkRed}{When the clean DAG picture breaks}}
+\end{center}
+\end{frame}
+
+\begin{frame}{What changes today?}
+In the previous lectures we mostly acted as if the important variables were observed.
+Today we ask what happens when a relevant common cause is hidden.
+
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{Main difficulty}
+If an important confounder is unobserved, then
+\begin{itemize}
+    \item back-door adjustment may fail,
+    \item graphs on observed variables may be misleading,
+    \item standard regression can be badly biased.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Main response}
+We cannot make hidden confounding disappear,
+but we can often reason about it and partially adjust for it:
+\begin{itemize}
+    \item instrumental variables,
+    \item proxy controls,
+    \item latent factor adjustments,
+    \item synthetic instruments.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=8pt,center,rounded=true,shadow=true]{important}
+\textbf{Main question:}
+How can we reason causally when the structural graph contains hidden variables?
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{Roadmap for today}
+\begin{enumerate}
+    \item hidden confounding and why the clean DAG story breaks
+    \item a brief glimpse of MAGs
+    \item IV as the benchmark workaround
+    \item proxy controls
+    \item latent factor adjustments
+    \item synthetic-instrument style ideas
+\end{enumerate}
+
+\vspace{2mm}
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+\textbf{Memorable statement:}
+when a confounder is hidden, the graph is not gone --- it is only partially visible.
+\end{beamercolorbox}
+\end{frame}
+
+% ------------------------------------------------------------
+% Hidden confounding
+% ------------------------------------------------------------
+
+\section{Unobserved confounding}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 1: Hidden confounding}}
+\end{center}
+\end{frame}
+
+\begin{frame}{The clean adjustment story}
+Suppose we want the effect of treatment $D$ on outcome $Y$.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=0.95,
+vertex/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
+\node[vertex] (x) at (0,0) {$X$};
+\node[vertex] (d) at (2,0) {$D$};
+\node[vertex] (y) at (4,0) {$Y$};
+\draw[->,very thick] (x)--(d);
+\draw[->,very thick] (x)--(y);
+\draw[->,very thick] (d)--(y);
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Adjustment logic}
+If $X$ blocks all back-door paths from $D$ to $Y$, then adjusting for $X$ may identify the causal effect.
+\end{block}
+
+\begin{alertblock}{This is the ideal case}
+The confounder is observed, and the graph tells us what to condition on.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{What if the confounder is hidden?}
+Now suppose the true common cause $U$ is unobserved.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=0.95,
+obs/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt},
+lat/.style={circle,draw,dashed,very thick,minimum size=7mm,inner sep=0pt,fill=red!15}]
+\node[lat] (u) at (0,0) {$U$};
+\node[obs] (d) at (2,0.8) {$D$};
+\node[obs] (y) at (4,0) {$Y$};
+\draw[->,very thick] (u)--(d);
+\draw[->,very thick] (u)--(y);
+\draw[->,very thick] (d)--(y);
+\end{tikzpicture}
+\end{center}
+
+\begin{alertblock}{Main problem}
+The back-door path
+\[
+D \leftarrow U \rightarrow Y
+\]
+is open, but we cannot condition on $U$ because it is hidden.
+\end{alertblock}
+
+\begin{block}{Economic reading}
+$U$ could be ability, firm quality, local demand, risk preferences, health, or political pressure.
+\end{block}
+\end{frame}
+
+\begin{frame}{A regression view of omitted-variable bias}
+Suppose
+\[
+Y = \alpha D + h(W) + \lambda U + \varepsilon,
+\qquad
+D = s(W) + \rho U + \nu,
+\]
+where $U$ is unobserved.
+
+After partialling out $W$, the residualized equations are
+\[
+\widetilde Y = \alpha \widetilde D + \lambda \widetilde U + \varepsilon,
+\qquad
+\widetilde D = \rho \widetilde U + \nu.
+\]
+
+\begin{alertblock}{What goes wrong?}
+The remaining variation in $D$ is correlated with the omitted term:
+\[
+\Cov(\widetilde D,\lambda \widetilde U + \varepsilon)
+= \lambda \rho \Var(\widetilde U)\neq 0.
+\]
+\end{alertblock}
+
+\begin{block}{Lesson}
+Even after controlling for observed covariates, naive regression can still be biased because hidden structure remains in the error.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{A tiny omitted-variable simulation}
+Suppose
+\[
+D = U + \varepsilon_D,
+\qquad
+Y = 1.0\, D + U + \varepsilon_Y.
+\]
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+set.seed(1)
+n <- 3000
+U <- rnorm(n)
+D <- U + rnorm(n)
+Y <- 1.0 * D + U + rnorm(n)
+
+coef(lm(Y ~ D))
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+# impossible benchmark:
+# if U were observed
+coef(lm(Y ~ D + U))
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+The naive regression on $D$ alone mixes the true causal effect with hidden confounding from $U$.
+\end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% MAGs
+% ------------------------------------------------------------
+
+\section{MAGs}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 2: A brief glimpse of MAGs}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Why introduce MAGs?}
+If latent variables are present, the observed variables alone may no longer form a DAG with the correct conditional independence structure.
+
+\begin{block}{What a MAG does}
+A \imp{maximal ancestral graph} (MAG) is a graph on the observed variables that summarizes
+\begin{itemize}
+    \item directed relations that remain visible,
+    \item dependence induced by hidden common causes,
+    \item which variables can still be separated by conditioning.
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{For this course}
+We only need the intuition: after marginalizing over hidden variables, the correct observed graph is often a mixed graph rather than a clean DAG.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{From a hidden-variable DAG to a mixed graph}
+Suppose the hidden DAG is
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=0.95,
+obs/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt},
+lat/.style={circle,draw,dashed,very thick,minimum size=7mm,inner sep=0pt,fill=red!15}]
+\node[lat] (u) at (0,0) {$U$};
+\node[obs] (d) at (2,0.8) {$D$};
+\node[obs] (m) at (2,-0.8) {$M$};
+\node[obs] (y) at (4,0) {$Y$};
+\draw[->,very thick] (u)--(d);
+\draw[->,very thick] (u)--(y);
+\draw[->,very thick] (d)--(m);
+\draw[->,very thick] (m)--(y);
+\end{tikzpicture}
+\end{center}
+
+After hiding $U$, we may summarize the observed structure by
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=0.95,
+obs/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt}]
+\node[obs] (d) at (0,0.8) {$D$};
+\node[obs] (m) at (2,0) {$M$};
+\node[obs] (y) at (4,0.8) {$Y$};
+
+\draw[->,very thick] (d)--(m);
+\draw[->,very thick] (m)--(y);
+\draw[<->,very thick,BrickRed] (d) to[bend left=18] (y);
+\end{tikzpicture}
+\end{center}
+
+\begin{alertblock}{Reading the graph}
+The bidirected edge $D \leftrightarrow Y$ is a reminder that the two observed variables still share hidden confounding.
+\end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% IV
+% ------------------------------------------------------------
+
+\section{IV as a benchmark}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 3: IV as the benchmark workaround}}
+\end{center}
+\end{frame}
+
+\begin{frame}{IV intuition}
+If the confounder is hidden, the classical econometric workaround is to find an observed variable $Z$ that moves the treatment but is otherwise exogenous.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=0.95,
+obs/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt},
+lat/.style={circle,draw,dashed,very thick,minimum size=7mm,inner sep=0pt,fill=red!15}]
+\node[obs] (z) at (0,0) {$Z$};
+\node[obs] (d) at (2,0) {$D$};
+\node[obs] (y) at (4,0) {$Y$};
+\node[lat] (u) at (2,1.5) {$U$};
+
+\draw[->,very thick] (z)--(d);
+\draw[->,very thick] (d)--(y);
+\draw[->,very thick] (u)--(d);
+\draw[->,very thick] (u)--(y);
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{IV requirements}
+\begin{itemize}
+    \item \textbf{Relevance:} $Z$ affects $D$.
+    \item \textbf{Exogeneity:} $Z$ is independent of the hidden confounder.
+    \item \textbf{Exclusion:} $Z$ affects $Y$ only through $D$.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Applied econ examples of IVs}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{Education and earnings}
+Use distance to college, local college openings, or schooling reforms to move education without directly moving earnings.
+\end{block}
+
+\begin{block}{Military service}
+Use draft lottery numbers to generate exogenous variation in service.
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Health and detention}
+Use physician or judge assignment when assignment is as-good-as random and strictness differs across decision-makers.
+\end{block}
+
+\begin{block}{Main lesson}
+IV is often the cleanest tool when hidden confounding is serious and a credible instrument is available.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{A tiny IV simulation}
+Suppose
+\[
+D = 0.8 Z + U + \varepsilon_D,
+\qquad
+Y = 1.0\, D + U + \varepsilon_Y,
+\]
+where $Z$ is independent of $U$.
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+set.seed(1)
+n <- 4000
+Z <- rnorm(n)
+U <- rnorm(n)
+D <- 0.8*Z + U + rnorm(n)
+Y <- 1.0*D + U + rnorm(n)
+
+coef(lm(Y ~ D))
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+library(AER)
+coef(ivreg(Y ~ D | Z))
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+OLS is biased by the hidden confounder $U$. A valid IV can recover the causal effect using exogenous variation in $D$ coming from $Z$.
+\end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Proxy controls
+% ------------------------------------------------------------
+
+\section{Proxy controls}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 4: Proxy controls}}
+\end{center}
+\end{frame}
+
+\begin{frame}{The basic proxy idea}
+Even if we do not observe the confounder $U$, we may observe variables that are informative about it.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=0.95,
+obs/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt},
+lat/.style={circle,draw,dashed,very thick,minimum size=7mm,inner sep=0pt,fill=red!15}]
+\node[lat] (u) at (0,0) {$U$};
+\node[obs] (z1) at (2,1.2) {$Z_1$};
+\node[obs] (z2) at (2,-1.2) {$Z_2$};
+\node[obs] (d) at (4,0.8) {$D$};
+\node[obs] (y) at (6,0) {$Y$};
+
+\draw[->,very thick] (u)--(z1);
+\draw[->,very thick] (u)--(z2);
+\draw[->,very thick] (u)--(d);
+\draw[->,very thick] (u)--(y);
+\draw[->,very thick] (d)--(y);
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Idea}
+The proxies $Z_1,Z_2$ are not themselves the confounder, but they carry information about it.
+\end{block}
+
+\begin{alertblock}{Applied examples}
+Test scores, prior grades, neighborhood variables, balance-sheet variables, or baseline outcomes may all serve as noisy measurements of an unobserved confounder.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{One proxy vs several proxies}
+A single noisy proxy is often not enough to remove confounding.
+
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{One proxy}
+If
+\[
+Z = U + \text{noise},
+\]
+then conditioning on $Z$ may reduce confounding, but not eliminate it.
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Several proxies}
+With multiple noisy measurements of the same latent source, we can often extract a much better approximation to the hidden confounder.
+\end{block}
+\end{column}
+\end{columns}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=7pt,center,rounded=true,shadow=true]{important}
+A good proxy does not have to be perfect. It has to carry usable information about the hidden source of confounding.
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}[fragile]{A tiny proxy-control simulation}
+Suppose
+\[
+Z_1 = U + \eta_1,\qquad
+Z_2 = U + \eta_2,\qquad
+D = U + \varepsilon_D,\qquad
+Y = 1.0\,D + U + \varepsilon_Y.
+\]
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+set.seed(1)
+n  <- 3000
+U  <- rnorm(n)
+Z1 <- U + rnorm(n)
+Z2 <- U + rnorm(n)
+D  <- U + rnorm(n)
+Y  <- 1.0*D + U + rnorm(n)
+
+coef(lm(Y ~ D))
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+coef(lm(Y ~ D + Z1))
+coef(lm(Y ~ D + Z1 + Z2))
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+One proxy helps a bit; multiple proxies help more.
+The point is not perfection, but partial recovery of the hidden confounder.
+\end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Latent factors
+% ------------------------------------------------------------
+
+\section{Latent factor adjustment}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 5: Latent factor adjustments}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Latent factor adjustments}
+If the hidden confounding is approximately low-dimensional, we may try to estimate it through a factor model.
+
+\begin{block}{Simple idea}
+Suppose many observed variables are affected by the same hidden source $U$.
+Then a factor model may recover a low-dimensional summary of that hidden variation.
+\end{block}
+
+\begin{alertblock}{Adjustment strategy}
+Estimate the latent factor(s), then include the estimated factors as additional controls in the outcome model.
+\end{alertblock}
+
+\begin{block}{Applied reading}
+This is natural when hidden confounding comes from business-cycle conditions, latent productivity, local demand, or market-wide stress.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{A tiny latent-factor adjustment in \texttt{R}}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+set.seed(1)
+n <- 2500
+U <- rnorm(n)
+
+X1 <- 0.8*U + rnorm(n)
+X2 <- 0.7*U + rnorm(n)
+X3 <- 0.9*U + rnorm(n)
+D  <- U + rnorm(n)
+Y  <- 1.0*D + U + rnorm(n)
+
+X <- cbind(X1, X2, X3)
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+pc1 <- prcomp(X, scale. = TRUE)$x[,1]
+
+coef(lm(Y ~ D))
+coef(lm(Y ~ D + pc1))
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+The first principal component acts as a rough estimate of the hidden confounder and can reduce omitted-variable bias.
+\end{alertblock}
+\end{frame}
+
+% ------------------------------------------------------------
+% Synthetic instruments
+% ------------------------------------------------------------
+
+\section{Synthetic instruments}
+
+\begin{frame}[plain,noframenumbering]{}
+\begin{center}
+{\Huge \textcolor{DarkRed}{Part 6: Synthetic instruments and practical strategies}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Synthetic instruments: the basic idea}
+Sometimes there is no obvious external instrument.
+But we may have many related variables that are informative about the treatment mechanism.
+
+\begin{block}{Heuristic idea}
+Construct a derived variable from multiple observed measurements so that it is:
+\begin{itemize}
+    \item strongly related to the treatment,
+    \item but plausibly less contaminated by the hidden confounder than the raw treatment itself.
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Why the name?}
+The constructed variable is not a classical external instrument.
+It is a synthetic or model-based source of variation extracted from the data.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{A stylized synthetic-instrument picture}
+Suppose a hidden factor $U$ affects treatment and outcome, but we also observe many variables tied to the treatment mechanism.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=0.95,
+obs/.style={circle,draw,very thick,minimum size=7mm,inner sep=0pt},
+lat/.style={circle,draw,dashed,very thick,minimum size=7mm,inner sep=0pt,fill=red!15}]
+\node[lat] (u) at (0,0) {$U$};
+\node[obs] (z1) at (2,1.2) {$Z_1$};
+\node[obs] (z2) at (2,-1.2) {$Z_2$};
+\node[obs] (d) at (4,0.8) {$D$};
+\node[obs] (y) at (6,0) {$Y$};
+
+\draw[->,very thick] (u)--(d);
+\draw[->,very thick] (u)--(y);
+\draw[->,very thick] (z1)--(d);
+\draw[->,very thick] (z2)--(d);
+\draw[->,very thick] (d)--(y);
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Idea}
+A suitable combination of $Z_1,Z_2,\ldots$ may isolate a more credible source of variation for $D$ than the raw treatment itself.
+\end{block}
+\end{frame}
+
+\begin{frame}{A pragmatic summary}
+When the graph contains hidden variables, there is no universal fix.
+
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{Good practical strategies}
+\begin{itemize}
+    \item use substantive knowledge,
+    \item search for multiple proxies,
+    \item exploit repeated measurements,
+    \item use factor structure when confounding is common and pervasive,
+    \item use IV if a credible instrument exists.
+\end{itemize}
+\end{block}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{block}{Things to avoid}
+\begin{itemize}
+    \item pretending the hidden variable is irrelevant,
+    \item conditioning on obvious colliders,
+    \item over-interpreting a graph estimated from incomplete variables,
+    \item assuming one noisy proxy solves the whole problem.
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+
+\begin{beamercolorbox}[wd=\textwidth,sep=8pt,center,rounded=true,shadow=true]{important}
+The right question is often not “how do I remove confounding completely?” but “how much credible adjustment can I recover from the observed data?”
+\end{beamercolorbox}
+\end{frame}
+
+% ------------------------------------------------------------
+% Closing
+% ------------------------------------------------------------
+
+\section{Conclusion}
+
+\begin{frame}{Take-away}
+\begin{itemize}
+    \item Hidden confounders break the clean adjustment logic of observed-variable DAGs.
+    \item MAGs give a compact language for the observed implications of latent confounding.
+    \item IV is the benchmark workaround when a credible instrument is available.
+    \item Proxy controls use noisy measurements of the hidden confounder.
+    \item Latent factor adjustments use many observed variables to estimate a hidden source.
+    \item Synthetic-instrument ideas use structured observed variation to recover more credible identification.
+\end{itemize}
+
+\vspace{2mm}
+\begin{beamercolorbox}[wd=\textwidth,sep=8pt,center,rounded=true,shadow=true]{important}
+When the graph is only partially observed, the goal shifts from perfect recovery to careful partial adjustment.
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{Looking ahead}
+\begin{block}{Next lecture}
+We move from hidden confounding to interactions between units: network interference and spillovers.
+\end{block}
+
+\begin{alertblock}{Bridge forward}
+Today hidden variables complicated identification within a unit.
+Next time other units will enter directly into the potential outcome.
+\end{alertblock}
+\end{frame}
+
+\end{document}

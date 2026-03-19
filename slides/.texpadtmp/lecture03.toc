@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{Overview}{2}{0}{1}
+\beamer@sectionintoc {2}{Directed acyclic graphs}{5}{0}{2}
+\beamer@sectionintoc {3}{d-separation}{11}{0}{3}
+\beamer@sectionintoc {4}{Markov equivalence}{20}{0}{4}
+\beamer@sectionintoc {5}{Interventions}{26}{0}{5}
+\beamer@sectionintoc {6}{Linear SEMs}{31}{0}{6}
+\beamer@sectionintoc {7}{Conclusion}{39}{0}{7}

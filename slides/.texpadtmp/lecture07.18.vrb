@@ -1,0 +1,22 @@
+\frametitle{Structural EM in action}
+The following code uses the package \texttt{StructuralEM} in the Box.
+\begin{lstlisting}
+library(huge); data(stockdata)
+set.seed(1)
+ns <-80
+# subsample 80 stocks from the dataset
+sample.stocks <- sample(1:ncol(stockdata$data),ns)
+dat = log(stockdata$data[2:1258,sample.stocks]/stockdata$data[1:1257,sample.stocks])
+dat <- normalize.data(dat)
+# quick heuristic guess for the underlying graph
+T0 <- quick.start(dat)
+#run the structural EM algorithm
+res <- strEM(dat,T0,tol=1e-6)
+#output the tree
+T <- res$tree;
+K <- as_adjacency_matrix(T)
+rownames(K) <- colnames(K) <- c(stockdata$info[sample.stocks,1],rep(NA,ns-2))
+qgraph::qgraph(K,color=c(rep("#98CB22",ns),rep("white",ns-2)),vsize=c(rep(3,ns),rep(1,ns-2)))
+# to color nodes with economy segments run:
+qgraph::qgraph(K,color=c(2*rank(stockdata$info[sample.stocks,2]),rep("white",ns-2)),vsize=c(rep(3,ns),rep(1,ns-2)))
+\end{lstlisting}

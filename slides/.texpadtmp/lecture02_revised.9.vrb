@@ -1,0 +1,19 @@
+\frametitle{Florida murderers (Simpson again)}
+\small
+Sentences in 4863 murder cases in Florida (1973--78)
+\begin{center}
+\begin{tabular}{lcc} \hline
+&\multicolumn{2}{c}{Sentence}\\
+\cline{2-3}
+Murderer&Death&Other\\
+\hline Black&59&2547\\ White&72&2185\\
+\hline
+\end{tabular}
+\end{center}
+The table shows a greater proportion of \emph{white} murderers receiving death sentence than black (3.2\% vs.\ 2.3\%).
+\begin{lstlisting}[language=R,basicstyle=\ttfamily\small]
+flor <- matrix(c(59,72,2547,2185),2,2)
+dimnames(flor) <- list(Murderer=c("Black","White"),
+                       Sentence=c("Death","Other"))
+chisq.test(flor)$p.value
+\end{lstlisting}

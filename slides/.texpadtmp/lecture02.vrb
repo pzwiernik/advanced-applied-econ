@@ -1,0 +1,27 @@
+\frametitle{Non-paranormal estimation in \texttt {R}}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+library(huge)
+data(stockdata)
+
+x <- scale(stockdata[,1:40])
+x.npn <- huge.npn(x,
+                  npn.func = "skeptic")
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+out.npn <- huge(x.npn,
+                method = "glasso")
+Khat <- out.npn$icov[[10]]
+Khat <- (Khat + t(Khat))/2
+qgraph(-cov2cor(Khat),
+       layout = "spring")
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+This estimates a sparse graph after a rank-based non-paranormal transformation.
+\end{alertblock}

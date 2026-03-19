@@ -1,0 +1,30 @@
+\frametitle{Package \texttt {qgraph}}
+Useful for simple analysis and especially in high-dimensions.
+\begin{lstlisting}
+library(qgraph)
+data(milan.mort,package="SemiPar")
+qgraph(cor(milan.mort), layout="groups")
+\end{lstlisting}
+\vspace{-.3cm}
+\hspace{.5cm}\begin{minipage}{5cm}
+	{\tiny
+	\begin{enumerate}
+		\item [day.num] number of days since 31st December, 1979
+		\item [day.of.week] 1=Monday,2=Tuesday,3=Wednesday,4=Thursday, 5=Friday,6=Saturday,7=Sunday.
+		\item [holiday] indicator of public holiday: 1=public holiday, 0=otherwise.
+		\item [mean.temp] mean daily temperature in degrees Celcius.
+		\item [rel.humid] relative humidity.
+		\item [tot.mort] total number of deaths.
+		\item [resp.mort] total number of respiratory deaths.
+		\item [SO2]  measure of sulphur dioxide level in ambient air.
+		\item [TSP] total suspended particles in ambient air.
+	\end{enumerate}
+	}
+\end{minipage}
+\begin{minipage}{6cm}
+	\begin{center}
+\includegraphics[scale=.5]{pics/net1}	
+\end{center}
+\end{minipage}
+
+	Useful resource: \textcolor{blue}{\url{http://sachaepskamp.com/files/Cookbook.html}}

@@ -1,0 +1,28 @@
+\frametitle{A tiny RBM-style code illustration}
+In modern practice, one usually works with autoencoders or neural nets rather than classical RBM training, but the basic hidden-layer idea is similar.
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+set.seed(1)
+X <- matrix(rbinom(500*4, 1, 0.5),
+            500, 4)
+W <- matrix(c(1.2,-0.8,
+              0.5, 1.1,
+             -0.7, 0.9,
+              1.0, 0.6), 4, 2,
+            byrow = TRUE)
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+eta <- X %*% W
+Hprob <- 1/(1 + exp(-eta))
+head(Hprob)
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Interpretation}
+The hidden layer turns observed inputs into latent activation probabilities --- the modern representation-learning version of a latent-variable model.
+\end{alertblock}

@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{Overview}{2}{0}{1}
+\beamer@sectionintoc {2}{Potential outcomes and SUTVA}{5}{0}{2}
+\beamer@sectionintoc {3}{Spillovers on graphs}{10}{0}{3}
+\beamer@sectionintoc {4}{A simple simulation}{16}{0}{4}
+\beamer@sectionintoc {5}{Targeting and policy evaluation}{19}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{25}{0}{6}

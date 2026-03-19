@@ -1,0 +1,25 @@
+\frametitle{Binary \mtp \ modeling in \texttt {R}}
+For binary data, the package \texttt{MTP2binary} provides one route to fitting \mtp\ models.
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+# if needed:
+# devtools::install_github(
+#   "pzwiernik/MTP2binary")
+
+library(MTP2binary)
+\end{lstlisting}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{lstlisting}
+# package functions depend on model
+# class and data format;
+# see package examples/vignettes
+\end{lstlisting}
+\end{column}
+\end{columns}
+
+\begin{alertblock}{Teaching point}
+The binary and Gaussian cases are different models, but the same positive-dependence idea reappears in both.
+\end{alertblock}

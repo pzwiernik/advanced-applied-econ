@@ -1,0 +1,15 @@
+\frametitle{Basic nonparametric test}
+\begin{alertblock}{Kendall's tau test for non-Gaussian data}
+Suppose a bivariate sample $(x_i,y_i)$ for $i=1,\ldots,n$ is given.\\[.2cm]
+Pair $(x_i,y_i)$ , $(x_j,y_j)$ is \alert{concordant} if $(x_i,y_i)< (x_j,y_j)$ or $(x_i,y_i)> (x_j,y_j)$. Otherwise  \alert{discordant}.\\[.2cm]
+Define $\tau_{XY}\;=\;\tfrac{(\#\mbox{concordant})-(\#\mbox{discordant})}{{n\choose 2}}\;\in\;  [-1,1]$.\\[.2cm]
+Test based on Kendell's $\tau$ statistic is implemented in \textsc{R} as \texttt{cor.test}.
+   \begin{lstlisting}
+> set.seed(1); n <- 200; rho <- 0.2; Z <- runif(n);
+> X <- runif(n)^2+sqrt(rho)*Z; Y <- runif(n)+sqrt(rho)*Z
+> cor.test(X, Y, method = "pearson")$p.value
+[1] 0.03417231
+> cor.test(X, Y, method = "kendall")$p.value
+[1] 0.01100592
+ \end{lstlisting}
+\end{alertblock}

@@ -1,0 +1,17 @@
+\frametitle{Using \texttt {IsingFit}}
+\begin{lstlisting}
+> install.packages("IsingFit"); library(IsingFit)
+> ncsdata=read.table(file="./data/DepressionAnxiety.txt")
+> colnames(ncsdata)=c("depr", "inte", "weig", "mSle", "moto", "mFat", "repr", "conc", "suic", "anxi", "even", "ctrl", "edge", "gFat", "irri", "gCon", "musc", "gSle") #Define variable names.
+# remove two variables that are perfectly correlated with each other in the sample
+> X <- (ncsdata[,-(10:11)])
+# run the high-dimensional Ising model selection problem
+> Res <- IsingFit(X,gamma = 0.5, plot=FALSE)
+# compare with the correlation network
+> lay <-averageLayout(Res$weiadj,cor(X), layout = "spring", repulsion = 1)
+> qgraph(cor(X),layout=lay,labels=colnames(X))
+> qgraph(Res$weiadj, layout = lay)
+# both graphs appear on the next slide
+\end{lstlisting}
+For a discussion of this dataset see:\\[.2cm]
+{\footnotesize Borsboom and Cramer, Network analysis: an integrative approach to the\\[-.2cm] structure of psychopathology, Annual review of clinical psychology, 9 (2013). }

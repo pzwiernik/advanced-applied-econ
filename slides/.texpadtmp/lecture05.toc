@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{Overview}{2}{0}{1}
+\beamer@sectionintoc {2}{Factor analysis}{5}{0}{2}
+\beamer@sectionintoc {3}{Latent classes and mixtures}{14}{0}{3}
+\beamer@sectionintoc {4}{Latent trees}{19}{0}{4}
+\beamer@sectionintoc {5}{Restricted Boltzmann machines}{25}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{30}{0}{6}

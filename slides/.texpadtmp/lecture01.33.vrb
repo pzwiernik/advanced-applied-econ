@@ -1,0 +1,22 @@
+\frametitle{Test based on distance correlation}
+\alert{Distance correlation} $\mathcal R(X,Y)$ provides a test which applies when
+$X$, $Y$ are two random \textbf{vectors} of any dimensions.\\[.2cm]
+$\mathcal R(X,Y)=0$ if and only if $X$ and $Y$ are independent.\\[.2cm]
+The sample version of $\mathcal R(X,Y)$ gives a \alert{nonparametric} test of independence. \\[.2cm]
+This is also implemented in R in package \texttt{energy}.
+\begin{lstlisting}
+> library(energy); set.seed(1); n <- 200
+> A <- runif(n)-1/2; B <- runif(n)-1/2
+> X <- t(c(cos(pi/4),-sin(pi/4)) %*% rbind(A,B))
+> Y <- t(c(sin(pi/4),cos(pi/4)) %*% rbind(A,B))
+> dcor.test(X,Y,R=1000)
+
+	dCor independence test (permutation test)
+
+data:  index 1, replicates 1000
+dCor = 0.21161, p-value = 0.004995
+sample estimates:
+      dCov       dCor    dVar(X)    dVar(Y)
+0.03999654 0.21160982 0.17870935 0.19990601
+\end{lstlisting}
+Here $R=1000$ is the number of the permutation bootstrap replications.

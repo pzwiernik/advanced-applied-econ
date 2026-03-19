@@ -1,0 +1,169 @@
+\usepackage{tikz,amsfonts}
+% xcolor is typically loaded by beamer; re-loading with options may cause an option clash.
+\usepackage{xcolor}
+\usetikzlibrary{arrows,arrows.meta,positioning,calc,shapes}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{multirow}
+\usepackage{environ,lipsum}
+\usepackage{listings}
+
+
+
+\lstset{ 
+  language=R,                     % the language of the code
+  basicstyle=\scriptsize\ttfamily, % the size of the fonts that are used for the code
+  columns=fullflexible,
+%  numbers=left,                   % where to put the line-numbers
+%  numberstyle=\tiny\color{Blue},  % the style that is used for the line-numbers
+%  stepnumber=1,                   % the step between two line-numbers. If it is 1, each line
+                                  % will be numbered
+%  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{Dandelion!15!white},  % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{Dandelion!15!white},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  keywordstyle=\color{RoyalBlue!80!black},      % keyword style
+  commentstyle=\color{YellowGreen!60!black},   % comment style
+  %stringstyle=\color{ForestGreen}      % string literal style
+} 
+\lstset{alsoletter={.,_}, morekeywords={cor.test,set.seed,dcor.test,make_tree,sample_gnm,graph,ci.test,qgraph,sample_smallworld,ciTest_table,IsingFit,averageLayout,read.table,install.packages,bdgraph,stepwise,dmod,cmod,ciTest,graph_from_adjacency_matrix,mvrnorm,CondIndTest,as.data.frame,chisq.test,gnm,smallworld,ug,dag,edge,as.igraph,degree,diameter,centrality,cluster,betweenness,at}
+}
+
+
+\newcommand{\customframefont}[1]{
+\setbeamertemplate{itemize/enumerate body begin}{#1}
+\setbeamertemplate{itemize/enumerate subbody begin}{#1}
+}
+
+\NewEnviron{framefont}[1]{
+\customframefont{#1} % for itemize/enumerate
+{#1 % For the text outside itemize/enumerate
+\BODY
+}
+\customframefont{\normalsize}
+}
+
+
+
+%%%%%%%%% BASICS
+\usenavigationsymbolstemplate{}
+
+\setbeamertemplate{frametitle}
+  {\begin{centering}\smallskip
+   \insertframetitle\par
+   \smallskip\end{centering}}
+\setbeamersize{text margin left=.2cm,text margin right=.2cm} 
+\setbeamertemplate{itemize item}{$\bullet$}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[text line]{%
+    \hfill\strut{%
+        \scriptsize\sf\color{black!60}%
+        \quad\insertframenumber/\inserttotalframenumber
+    }%
+    \hfill
+    
+}
+
+%%%%%%%%% COLOR THEME
+
+% Define some colors:
+\definecolor{asparagus}{rgb}{0.53, 0.66, 0.42}
+\definecolor{DarkFern}{HTML}{407428}
+\definecolor{DarkCharcoal}{HTML}{4D4944}
+\colorlet{Fern}{DarkFern!85!white}
+\colorlet{Charcoal}{DarkCharcoal!85!white}
+\colorlet{LightCharcoal}{Charcoal!50!white}
+\definecolor{Important}{RGB}{234,122,133}
+\colorlet{AlertColor}{Melon!30!red}
+\colorlet{DarkRed}{red!70!black}
+\colorlet{DarkBlue}{blue!70!black}
+\colorlet{DarkGreen}{green!70!black}
+\definecolor{ExampleBlue}{RGB}{230,242,255}
+\setbeamercolor{examplepanel}{fg=black,bg=ExampleBlue}
+% Use the colors:
+\setbeamercolor{title}{fg=Fern}
+\setbeamercolor{frametitle}{fg=Fern}
+\setbeamercolor{normal text}{fg=Charcoal}
+\setbeamercolor{block title}{fg=black,bg=Fern!15!white}
+\setbeamercolor{block body}{fg=black,bg=Fern!15!white}
+%\setbeamercolor{block body alerted}{fg=black,bg=Goldenrod!5!white}
+%\setbeamercolor{block body example}{fg=black,bg=Fern!15!white}
+\setbeamercolor{alerted text}{fg=AlertColor}
+\setbeamercolor{itemize item}{fg=Charcoal}
+\setbeamercolor{framesource}{fg=gray}
+\setbeamerfont{framesource}{size=\tiny}
+
+%%%%% DEFINITIONS
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\D}{D}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\cor}{cor}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\pa}{pa}
+\DeclareMathOperator{\de}{de}
+\DeclareMathOperator{\nd}{nd}
+
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\J}{\rm {J}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\S}{\mathbb{S}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\imp}[1]{\textcolor{DarkRed}{\textbf{#1}}}
+\newcommand{\why}{\textcolor{WildStrawberry}{{\textsc{why?}}}}
+\newcommand{\indep}{\mbox{\,$\perp\!\!\!\perp$\,}}
+\newcommand{\mtp}{{\rm MTP}_{2}}
+\newcommand{\eps}{\varepsilon}
+
+\def\imagetop#1{\vtop{\null\hbox{#1}}}
+\def\house{\hbox{\kern3pt \vbox to12pt{}% 
+   \pdfliteral{q 0 0 m 0 5 l 5 10 l 10 5 l 10 0 l 7 0 l 7 5 l 3 5 l 3 0 l f
+               1 j 1 J -2 5 m 5 12 l 12 5 l S Q }%
+   \kern 13pt}}
+
+%source for images
+\newcommand{\source}[1]{\begin{textblock*}{4cm}(8.7cm,8.6cm)
+    \begin{beamercolorbox}[ht=0.5cm,right]{framesource}
+        \usebeamerfont{framesource}\usebeamercolor[fg]{framesource} Source: {#1}
+    \end{beamercolorbox}
+\end{textblock*}}
+
+%%% TITLE INFO
+
+
+
+\institute{\begin{center}
+  \IfFileExists{LOGOstats.png}{\raisebox{-0.5\height}{\includegraphics[scale=.27]{LOGOstats.png}}}{} 
+  \hspace{1mm}
+  \IfFileExists{LOGOBSE.jpg}{\raisebox{-0.5\height}{\includegraphics[scale=.08]{LOGOBSE.jpg}}}{} 
+\end{center}}
+
+
+\setbeamercolor{notabene}{fg=black!50!white,bg=Gray!10!white}
+\setbeamercolor{important}{fg=red!50!white,bg=red!7!white}
+\setbeamercolor{goldbox}{fg=black!50!white,bg=Goldenrod!7!white}
+\setbeamercolor{result}{fg=black!60!white,bg=OliveGreen!4!white}
+% \begin{beamercolorbox}[wd=\paperwidth,sep=7pt]{important}	
+%	%\end{beamercolorbox}

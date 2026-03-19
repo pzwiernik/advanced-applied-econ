@@ -1,0 +1,15 @@
+\frametitle{Another cautionary example}
+Bowman\& Azzalini (1997) analyse aircraft wing span and speed data.	 \begin{center}
+	 \includegraphics[scale=.6]{pics/aircraft}	 	
+	 \end{center}
+	 \begin{lstlisting}
+> library(sm); set.seed(1);
+> X <- aircraft$Span
+> Y <- aircraft$Speed
+> cor.test(X,Y)$p.value
+[1] 0.7816014
+> dcor.test(X,Y,R=1000)$p.value
+[1] 0.000999001
+\end{lstlisting}
+
+	 {\small For a discussion see: \'{C}miel, Ledwina, \textit{Validation of Association}, 2019. }

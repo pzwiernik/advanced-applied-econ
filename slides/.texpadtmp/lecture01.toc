@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{About the course}{2}{0}{1}
+\beamer@sectionintoc {2}{Conditional independence}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{Basic concepts}{6}{0}{2}
+\beamer@sectionintoc {3}{Why Conditioning Matters}{18}{0}{3}
+\beamer@sectionintoc {4}{Testing independence}{26}{0}{4}
