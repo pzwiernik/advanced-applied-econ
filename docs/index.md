@@ -22,7 +22,7 @@ Office hours: 20.202 by appointment
 ## Suggested reading
 This is not a causal inference course but this area of data analysis relies heavily on similar ideas. I will try to make my lecture as self-contained as possible but some material that may be useful:
 - R. Alexander, [Telling stories with data](https://tellingstorieswithdata.com/). 
-- J. Peters, D. Janzing, & B. Scholkopf (2017). Elements of causal inference: foundations and learning algorithms. MIT press.
+- J. Peters, D. Janzing, & B. Schölkopf. [Elements of causal inference: foundations and learning algorithms](https://people.math.ethz.ch/~jopeters/elements.html).
 - V. Chernozhukov, C. Hansen, N. Kallus, M. Spindler, V. Syrgkanis, [Applied Causal Inference
 Powered by ML and AI](https://causalml-book.org/).
 - S. Højsgaard, D. Edwards, S. Lauritzen. Graphical Models with R.
