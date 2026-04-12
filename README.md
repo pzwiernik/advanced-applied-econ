@@ -5,6 +5,7 @@ This course studies modern structured statistical methods for applied economics,
 ---
 
 ## Announcements
+- Apr 12: Please send to me your chosen topics for the final projects ASAP this week.  
 - Mar 21: The last two lectures are scheduled on May 4, 2:30-6:30pm.
 - Mar 20: Slides for Lectures 1 and 2 are available.
 - Mar 20: Suggested [project topics](projects.md) are released.
