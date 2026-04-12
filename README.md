@@ -36,9 +36,9 @@ Powered by ML and AI](https://causalml-book.org/).
 |---|---|---|
 | 1 | Conditional independence as structure | [Lecture1](/slides/lecture01.pdf) |
 | 2 | Gaussian and non-paranormal graphical models | [Lecture2](/slides/lecture02.pdf) |
-| 3 | DAGs, interventions, and structural equation models | [Lecture3](/slides/lecture03.pdf) |
-| 4 | Causal discovery and non-Gaussian identification | [Lecture4](/slides/lecture04.pdf) |
-| 5 | Latent variable models — from trees to neural nets | Lecture5 |
+| 3 | DAGs, Markov equivalence, and interventions | [Lecture3](/slides/lecture03.pdf) |
+| 4 | Causal discovery, linear structural equation models, and non-Gaussian identification | [Lecture4](/slides/lecture04.pdf) |
+| 5 | Latent variable models — from trees to neural nets | [Lecture5](/slides/lecture05.pdf) |
 | 6 | Unobserved confounding and adjustments | Lecture6 |
 | 7 | Network interference and spillovers | Lecture7 |
 | 8 | Positive dependence and total positivity | Lecture8 |
