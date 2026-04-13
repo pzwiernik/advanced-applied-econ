@@ -50,3 +50,4 @@ Powered by ML and AI](https://causalml-book.org/).
 
 ## Projects
 See the proposed [project topics](projects.md).
+A couple of words about project presentations: [How to give short technical talks?](/slides/how_to_give_talks.pdf)
