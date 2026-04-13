@@ -40,7 +40,7 @@ Powered by ML and AI](https://causalml-book.org/).
 | 3 | DAGs, Markov equivalence, and interventions | [Lecture3](/slides/lecture03.pdf) |
 | 4 | Causal discovery, linear structural equation models, and non-Gaussian identification | [Lecture4](/slides/lecture04.pdf) |
 | 5 | Latent variable models — from trees to neural nets | [Lecture5](/slides/lecture05.pdf) |
-| 6 | Unobserved confounding and adjustments | Lecture6 |
+| 6 | Unobserved confounding and adjustments | [Lecture6](/slides/lecture06.pdf) |
 | 7 | Positive dependence and total positivity | Lecture7 |
 | 8 | Network interference and spillovers | Lecture8 |
 | 9 | Presentations |  |
