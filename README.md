@@ -41,8 +41,8 @@ Powered by ML and AI](https://causalml-book.org/).
 | 4 | Causal discovery, linear structural equation models, and non-Gaussian identification | [Lecture4](/slides/lecture04.pdf) |
 | 5 | Latent variable models — from trees to neural nets | [Lecture5](/slides/lecture05.pdf) |
 | 6 | Unobserved confounding and adjustments | Lecture6 |
-| 7 | Network interference and spillovers | Lecture7 |
-| 8 | Positive dependence and total positivity | Lecture8 |
+| 7 | Positive dependence and total positivity | Lecture7 |
+| 8 | Network interference and spillovers | Lecture8 |
 | 9 | Presentations |  |
 | 10 | Presentations |  |
 
