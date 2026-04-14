@@ -43,8 +43,8 @@ Powered by ML and AI](https://causalml-book.org/).
 | 6 | Unobserved confounding and adjustments | [Lecture6](/slides/lecture06.pdf) |
 | 7 | Positive dependence and total positivity | Lecture7 |
 | 8 | Network interference and spillovers | Lecture8 |
-| 9 | Presentations |  |
-| 10 | Presentations |  |
+| 9-10 | Presentations |  |
+
 
 ---
 
