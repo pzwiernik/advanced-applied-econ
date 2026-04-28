@@ -5,6 +5,7 @@ This course studies modern structured statistical methods for applied economics,
 ---
 
 ## Announcements
+- Apr 28: The schedule for the presentation day is posted below.
 - Apr 12: Please send to me your chosen topics for the final projects ASAP this week.  
 - Mar 21: The last two lectures are scheduled on May 4, 2:30-6:30pm.
 - Mar 20: Slides for Lectures 1 and 2 are available.
@@ -51,3 +52,59 @@ Powered by ML and AI](https://causalml-book.org/).
 See the proposed [project topics](projects.md).
 
 [How to give short technical talks?](/slides/how_to_give_talks.pdf)
+
+
+## Presentation Schedule
+
+**Time:** 10:35–14:30  
+**Format:** 15 min presentation + 5 min discussion per talk  
+**Breaks:** Two 15 min breaks  
+**Buffer / closing discussion:** 14:05–14:30
+
+### Schedule
+
+**10:35–10:55**  
+Juan Carlos Cisneros, Erik Solé  
+*Robustness of graphical model selection for economic network inference*
+
+**10:55–11:15**  
+Simone Alberto Distefano, Carlos Rubiano  
+*Causal Discovery under Non-Gaussianity: LiNGAM and Mean Independence Extensions*
+
+**11:15–11:35**  
+Orhun Özel, Ece Taşan Özel  
+*Network Effects of Oil Price Shocks on Inflation using a DAG-SVAR Framework*
+
+**11:35–11:50**  
+**Break**
+
+**11:50–12:10**  
+Michael Fehl, Francesco Zucca  
+*Kalman filtering and extensions*
+
+**12:10–12:30**  
+Siyang Zhu  
+*The Impact of Media Censorship: 1984 or Brave New World?*
+
+**12:30–12:50**  
+Anqi Liu, Megan Yeo  
+*Network spillovers in applied economics*
+
+**12:50–13:05**  
+**Break**
+
+**13:05–13:25**  
+Shuting Zhang, Lorenzo Marzano  
+*Causal inference under interference*
+
+**13:25–13:45**  
+Pietro Fraccaroli, Gimelgo Xirinda  
+*Does the economic impact of hurricanes in Florida propagate through channels beyond geographic proximity?*
+
+**13:45–14:05**  
+Zhekai Pang  
+*Robust Score Matching*
+
+**14:05–14:30**  
+**Buffer / closing discussion**
+
