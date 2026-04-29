@@ -57,9 +57,9 @@ See the proposed [project topics](projects.md).
 ## Presentation Schedule
 
 **Time:** 14:35–18:30  
-**Format:** 15 min presentation + 5 min discussion per talk  
-**Breaks:** Two 15 min breaks  
-**Buffer / closing discussion:** 18:05–18:30
+**Format:** approximately 15 min presentation + 5 min discussion  
+**Breaks:** one 15 min break and one 10 min break  
+**Note:** Times are orientative; we will try to keep roughly to the schedule.
 
 ### Schedule
 
@@ -75,36 +75,40 @@ Simone Alberto Distefano, Carlos Rubiano
 Orhun Özel, Ece Taşan Özel  
 *Network Effects of Oil Price Shocks on Inflation using a DAG-SVAR Framework*
 
-**15:35–15:50**  
-**Break**
-
-**15:50–16:10**  
+**15:35–15:55**  
 Michael Fehl, Francesco Zucca  
 *Kalman filtering and extensions*
 
+**15:55–16:10**  
+**Break**
+
 **16:10–16:30**  
+Kai Faulkner  
+*Gaussian mixtures and hidden segmentation*
+
+**16:30–16:50**  
 Siyang Zhu  
 *The Impact of Media Censorship: 1984 or Brave New World?*
 
-**16:30–16:50**  
+**16:50–17:10**  
 Anqi Liu, Megan Yeo  
 *Network spillovers in applied economics*
 
-**16:50–17:05**  
+**17:10–17:20**  
 **Break**
 
-**17:05–17:25**  
+**17:20–17:40**  
 Shuting Zhang, Lorenzo Marzano  
 *Causal inference under interference*
 
-**17:25–17:45**  
+**17:40–18:00**  
 Pietro Fraccaroli, Gimelgo Xirinda  
 *Does the economic impact of hurricanes in Florida propagate through channels beyond geographic proximity?*
 
-**17:45–18:05**  
+**18:00–18:20**  
 Zhekai Pang  
 *Robust Score Matching*
 
-**18:05–18:30**  
-**Buffer / closing discussion**
+**18:20–18:30**  
+**Closing / buffer**
 
